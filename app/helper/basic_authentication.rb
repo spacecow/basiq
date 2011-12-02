@@ -3,7 +3,7 @@ module BasicAuthentication
     unless Rails.env.test?
       authenticate_or_request_with_http_basic do |username,password|
         @user = User.authenticate(username,password)
-        session[:userid] = @user.id if @user
+        session_userid(@user.id) if @user
       end
     end
   end

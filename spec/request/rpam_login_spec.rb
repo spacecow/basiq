@@ -4,12 +4,11 @@ describe "Sessions" do
   describe "new" do
     context "login user" do
       before(:each) do
-        Factory(:user, :email => "test@example.com")
-        login("test@example.com")
+        login
       end
 
-      it "should take you to the root path" do
-        page.current_path.should == root_path
+      it "should take you to the schema path" do
+        page.current_path.should == schema_path
       end
 
       it "should show a logged-in flash message" do
