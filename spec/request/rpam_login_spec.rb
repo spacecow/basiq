@@ -7,8 +7,8 @@ describe "Sessions" do
         login
       end
 
-      it "should take you to the root path" do
-        page.current_path.should == root_path
+      it "should take you to the schema path" do
+        page.current_path.should == schema_path
       end
 
       it "should show a logged-in flash message" do
