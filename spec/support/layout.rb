@@ -1,4 +1,5 @@
 def have_alert(s); have_flash(s,:alert) end
+def have_blank_error; have_error("can't be blank") end
 def have_error(s); have_css("p.inline-errors",:text=>s) end
 def have_flash(s,type); have_css("div#flash_#{type}",:text=>s) end
 def have_notice(s); have_flash(s,:notice) end
