@@ -4,8 +4,8 @@ describe "Sessions" do
   describe "new" do
     context "login user" do
       before(:each) do
-        Factory(:user, :email => "test@example.com")
-        login("test@example.com")
+        create_user({:name=>"test"})
+        login("test")
       end
 
       it "should take you to the root path" do

@@ -27,6 +27,11 @@ describe "Users" do
         signup
         page.should have_notice("Signed up.")
       end
+
+      it "creates the user as a member" do
+        signup
+        User.last.roles_mask.should be User.role("member")
+      end
     end
 
     context "errors" do
