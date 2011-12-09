@@ -38,27 +38,27 @@ describe "Users" do
       it "password field cannot be empty" do
         fill_in "Password", :with => ""
         click_button "Create User"
-        error_field(:password).should have_content("can't be blank")
+        li(:password).should have_blank_error
       end
 
-      it "email field cannot be empty" do
-        fill_in "Email", :with => ""
+      it "login field cannot be empty" do
+        fill_in "Login", :with => ""
         click_button "Create User"
-        error_field(:email).should have_content("can't be blank")
+        li(:login).should have_blank_error
       end
 
       it "confirmation is needed" do
         fill_in "Password", :with => "right"
         fill_in "Confirmation", :with => "wrong"
         click_button "Create User"
-        error_field(:password).should have_content("doesn't match confirmation")
+        li(:password).should have_confirmation_error
       end
 
-      it "email have to be unique" do
-        Factory(:user, :email => "taken@example.com")
-        fill_in "Email", :with => "taken@example.com"
+      it "login have to be unique" do
+        create_user("taken") 
+        fill_in "Login", :with => "taken"
         click_button "Create User"
-        error_field(:email).should have_content("has already been taken")
+        li(:login).should have_duplication_error
       end
     end
   end

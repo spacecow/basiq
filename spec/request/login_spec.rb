@@ -4,7 +4,7 @@ describe "Sessions" do
   describe "new" do
     context "login user" do
       before(:each) do
-        create_user({:name=>"test"})
+        create_user("test")
         login("test")
       end
 
