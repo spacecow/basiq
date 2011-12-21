@@ -26,15 +26,16 @@ def row(i); all(:css, "table tr")[i] end
 
 # TABLESMAP ----------------------------------
 def tablemap(id="", row=nil, col=nil)
-  table = table(id).all(:css,"tr").map{|e| e.all(:css,"td").map{|f| f.text.strip}}
+  tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'td').map{|f| f.text.strip}}
   begin
-    table(id).find(:css,"th")
-    table.shift 
+    table(id).find(:css,'th')
+    tbl.shift
+    tbl.unshift table(id).first(:css,'tr').all(:css,'th').map{|e| e.text.strip}
   rescue
   end
-  return table if row.nil?
-  return table[row] if col.nil?
-  return table[row][col]
+  return tbl if row.nil?
+  return tbl[row] if col.nil?
+  return tbl[row][col]
 end
 def tablerow(row); tablemap("",row) end
 def tablecell(row,col); tablemap("",row,col) end
