@@ -18,7 +18,6 @@ def have_notice(s); have_flash(s,:notice) end
 def have_deleted_notice_for(s)
   have_notice("Successfully deleted #{I18n.t(s)}.")
 end
-
 def have_a_table(id); have_css("table##{id}") end
 def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
@@ -26,7 +25,11 @@ def li(s); find(:css, "li##{tag_id(s,:li)}") end
 def row(i); all(:css, "table tr")[i] end
 def tablemap(id="", row=nil, col=nil)
   table = table(id).all(:css,"tr").map{|e| e.all(:css,"td").map{|f| f.text.strip}}
-  #table = tables(id).map{|e| e.all(:css,"tr").map{|f| f.all(:css,"td").map(&:text)}}.first.reject{|e| e.empty?}
+  begin
+    table(id).find(:css,"th")
+    table.shift 
+  rescue
+  end
   return table if row.nil?
   return table[row] if col.nil?
   return table[row][col]
