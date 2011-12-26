@@ -25,7 +25,14 @@ def li(s); find(:css, "li##{tag_id(s,:li)}") end
 def row(i); all(:css, "table tr")[i] end
 
 # TABLESMAP ----------------------------------
-def tablemap(id="", row=nil, col=nil)
+
+def tablemaps
+  ret = []
+  tables.each_index{|i| ret.push tablemap(i)} 
+  ret
+end
+
+def tablemap(id=0)
   tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'td').map{|f| f.text.strip}}
   begin
     table(id).find(:css,'th')
@@ -33,13 +40,13 @@ def tablemap(id="", row=nil, col=nil)
     tbl.unshift table(id).first(:css,'tr').all(:css,'th').map{|e| e.text.strip}
   rescue
   end
-  return tbl if row.nil?
-  return tbl[row] if col.nil?
-  return tbl[row][col]
+  tbl
 end
-def tablerow(row); tablemap("",row) end
-def tablecell(row,col); tablemap("",row,col) end
+def tablerow(row,id=0); tablemap(id)[row] end
+def tablecell(row,col,id=0); tablerow(row,id)[col] end
 
-def table(id=""); id.blank? ? find(:css,"table") : find(:css,"table##{id.to_s}") end
+#def table(id=""); id.blank? ? find(:css,'table') : find(:css,"table##{id.to_s}") end
+def table(id=0); tables[id] end
+def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
