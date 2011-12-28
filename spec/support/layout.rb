@@ -21,8 +21,12 @@ end
 def have_a_table(id); have_css("table##{id}") end
 def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
-def li(s); find(:css, "li##{tag_id(s,:li)}") end
-def row(i); all(:css, "table tr")[i] end
+def li(s)
+  return lis[s] if s.instance_of? Fixnum
+  find(:css, "li##{tag_id(s,:li)}") 
+end
+def lis; all(:css,"li") end
+def row(i); table.all(:css,'tr')[i] end
 
 # TABLESMAP ----------------------------------
 

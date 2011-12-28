@@ -4,6 +4,7 @@ module BasicApplicationController
   def deleted(s); t("successes.deleted",:o=>t(s)) end
   def notify(s); t("notices.#{s}") end
   def pt(s); t(s).pluralize end
+  def updated(s); t("successes.updated",:o=>t(s)) end
 
   def current_user
     @current_user ||= User.find(session[:userid]) if session[:userid]
