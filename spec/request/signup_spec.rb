@@ -30,7 +30,7 @@ describe "Users" do
 
       it "creates the user as a member" do
         signup
-        User.last.roles_mask.should be User.role("member")
+        User.last.roles_mask.should be User.role(:member)
       end
     end
 
@@ -44,7 +44,7 @@ describe "Users" do
       it "login field cannot be empty" do
         fill_in "Login", :with => ""
         click_button "Create User"
-        li(:login).should have_blank_error
+        li('Login').should have_blank_error
       end
 
       it "confirmation is needed" do
@@ -58,7 +58,7 @@ describe "Users" do
         create_user("taken") 
         fill_in "Login", :with => "taken"
         click_button "Create User"
-        li(:login).should have_duplication_error
+        li('Login').should have_duplication_error
       end
     end
   end

@@ -13,7 +13,7 @@ describe "Sessions" do
       end
 
       it "should show a logged-in flash message" do
-        page.should have_notice("Logged in")
+        page.should have_notice("Logged in.")
       end
     end
 

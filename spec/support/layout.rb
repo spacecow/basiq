@@ -23,7 +23,8 @@ def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
 def li(s)
   return lis[s] if s.instance_of? Fixnum
-  find(:css, "li##{tag_id(s,:li)}") 
+  return find(:css, "li##{tag_id(s,:li)}") if s.instance_of? Symbol
+  find(:css,"li##{tag_id(lbl_id(s),:li)}")
 end
 def lis; all(:css,"li") end
 def row(i); table.all(:css,'tr')[i] end
@@ -54,3 +55,6 @@ def table(id=0); tables[id] end
 def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
+
+private
+  def lbl_id(s); find(:css,'label',:text=>s)[:for] end
