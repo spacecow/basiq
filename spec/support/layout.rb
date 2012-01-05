@@ -1,4 +1,3 @@
-
 # ERRORS -------------------------------------
 def have_error(s); have_css("p.inline-errors",:text=>s) end
 def have_blank_error
@@ -55,6 +54,10 @@ def table(id=0); tables[id] end
 def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
+
+def div(s,i)
+  all(:css,"div.#{s}")[i] 
+end
 
 private
   def lbl_id(s); find(:css,'label',:text=>s)[:for] end
