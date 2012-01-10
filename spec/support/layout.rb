@@ -55,9 +55,17 @@ def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
 
-def div(s,i)
-  all(:css,"div.#{s}")[i] 
+# DIVS --------------------------------------
+
+def bottom_links; div('bottom_links') end
+def div(id,i=-1)
+  if i<0
+    find(:css,"div##{id}")
+  else
+    all(:css,"div.#{id}")[i] 
+  end
 end
+def site_nav; div('site_nav') end
 
 private
   def lbl_id(s); find(:css,'label',:text=>s)[:for] end

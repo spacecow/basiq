@@ -1,7 +1,26 @@
 require 'spec_helper'
 
 describe "Sessions" do
+  describe "root" do
+    it "layout" do
+      visit root_path
+      page.should have_link('Login')
+      page.should_not have_link('Logout')
+    end
+
+    it "link to login" do
+      visit root_path
+      click_link 'Login' 
+      page.current_path.should eq login_path
+    end
+  end
+
   describe "new" do
+    it "layout" do
+      visit login_path
+      page.should have_title('Login')
+    end
+
     context "login user" do
       before(:each) do
         create_user("test")
@@ -14,6 +33,10 @@ describe "Sessions" do
 
       it "should show a logged-in flash message" do
         page.should have_notice("Logged in.")
+      end
+
+      it "should show the name of he logged in user" do
+        page.should have_content("Logged in as test")
       end
     end
 

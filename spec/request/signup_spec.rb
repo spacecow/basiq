@@ -1,9 +1,25 @@
 require 'spec_helper'
 
 describe "Users" do
+  describe "root" do
+    it "layout" do
+      visit root_path
+      page.should have_link('Signup')
+    end
+    it "link to signup" do
+      visit root_path
+      click_link 'Signup'
+      page.current_path.should eq signup_path
+    end
+  end
+
   describe "new" do
     before(:each) do
       visit signup_path
+    end
+
+    it "layout" do
+      page.should have_title('Signup')
     end
 
     context "creates a new user" do
@@ -25,7 +41,12 @@ describe "Users" do
 
       it "shows a flash message" do
         signup
-        page.should have_notice("Signed up.")
+        page.should have_notice("Signed up and logged in.")
+      end
+
+      it "logs the user in" do
+        signup
+        page.should have_link('Logout')
       end
 
       it "creates the user as a member" do
