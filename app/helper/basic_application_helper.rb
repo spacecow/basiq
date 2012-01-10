@@ -9,4 +9,5 @@ module BasicApplicationHelper
     content_for(:title){ s.to_s }
     raw "<h1>#{s}</h1>"
   end
+  def update(s); t('labels.update',:o=>t(s)) end
 end

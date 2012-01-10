@@ -25,7 +25,7 @@ describe "Users" do
 
       it "shows a flash message" do
         signup
-        page.should have_notice("Signed up.")
+        page.should have_notice("Signed up and logged in.")
       end
 
       it "creates the user as a member" do
