@@ -1,13 +1,19 @@
 # ERRORS -------------------------------------
-def have_error(s); have_css("p.inline-errors",:text=>s) end
-def have_blank_error
-  have_error("can't be blank")
+def have_error(err,no=nil)
+  err = I18n.t("activerecord.errors.messages.#{err.to_s}",:count=>no) if err.instance_of? Symbol
+  have_css("p.inline-errors",:text=>err)
 end
+def have_blank_error; have_error(:blank) end
 def have_confirmation_error
-  have_error("doesn't match confirmation")
+  have_error(:confirmation)
 end
-def have_duplication_error;
-  have_error "has already been taken"
+def have_duplication_error; have_error(:taken) end
+def have_greater_than_error(no)
+  have_error(:greater_than,no)
+end
+
+def have_hint(s)
+  have_css("p.inline-hints",:text=>s)
 end
 
 # FLASH --------------------------------------
@@ -17,6 +23,7 @@ def have_notice(s); have_flash(s,:notice) end
 def have_deleted_notice_for(s)
   have_notice("Successfully deleted #{I18n.t(s)}.")
 end
+def have_image(s); have_xpath("//img[@alt='#{s}']") end
 def have_a_table(id); have_css("table##{id}") end
 def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
@@ -65,7 +72,8 @@ def div(id,i=-1)
     all(:css,"div.#{id}")[i] 
   end
 end
-def site_nav; div('site_nav') end
+def site_nav; div(:site_nav) end
+def user_nav; div(:user_nav) end
 
 private
   def lbl_id(s); find(:css,'label',:text=>s)[:for] end
