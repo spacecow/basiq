@@ -11,26 +11,41 @@ def have_duplication_error; have_error(:taken) end
 def have_greater_than_error(no)
   have_error(:greater_than,no)
 end
-
+def have_numericality_error
+  have_error(:numericality)
+end
 def have_hint(s)
   have_css("p.inline-hints",:text=>s)
 end
 
 # FLASH --------------------------------------
-def have_flash(s,type); have_css("div#flash_#{type}",:text=>s) end
-def have_alert(s); have_flash(s,:alert) end
-def have_notice(s); have_flash(s,:notice) end
+def have_flash(type,s="") 
+  if s.empty?
+    have_css("div#flash_#{type}")
+  else
+    have_css("div#flash_#{type}",:text=>s) 
+  end
+end
+def have_alert(s=""); have_flash(:alert,s) end
+def have_notice(s=""); have_flash(:notice,s) end
 def have_deleted_notice_for(s)
   have_notice("Successfully deleted #{I18n.t(s)}.")
 end
+
+
 def have_image(s); have_xpath("//img[@alt='#{s}']") end
 def have_a_table(id); have_css("table##{id}") end
 def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
-def li(s)
+def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
-  return find(:css, "li##{tag_id(s,:li)}") if s.instance_of? Symbol
-  find(:css,"li##{tag_id(lbl_id(s),:li)}")
+  if s.instance_of? Symbol
+    find(:css, "li##{tag_id(s,:li)}") if i<0
+    all(:css, "li##{tag_id(s,:li)}")[i]
+  else
+    find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
+    all(:css,"li##{tag_id(lbl_id(s),:li)}")[i]
+  end
 end
 def lis; all(:css,"li") end
 def row(i); table.all(:css,'tr')[i] end
