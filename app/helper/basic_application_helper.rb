@@ -1,4 +1,5 @@
 module BasicApplicationHelper
+  def add(s); t('labels.add',:o=>t(s)) end
   def create(s); t('labels.create',:o=>t(s)) end
   def edit(s); t('labels.edit',:o=>t(s)) end
   def ft(s); t("formtastic.labels.#{s.to_s}") end
