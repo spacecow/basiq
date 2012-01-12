@@ -87,6 +87,7 @@ def div(id,i=-1)
     all(:css,"div.#{id}")[i] 
   end
 end
+def divs(s); all(:css, "div.#{s}") end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
 
