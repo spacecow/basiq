@@ -1,8 +1,10 @@
 module BasicApplicationController
   def alertify(s); t("alerts.#{s}") end
-  def created(s,i=0)
-    if i > 0
-      t('successes.created_nos',:o=>t(s),:i=>i)
+  def created(s,i=0,pl=nil)
+    if i == 1 
+      t('successes.created_nos',:o=>t(s),:i=>1,:v=>t(:was))
+    elsif i > 1
+      t('successes.created_nos',:o=>t(pl),:i=>i,:v=>(:were))
     else
       t("successes.created",:o=>t(s)) 
     end
