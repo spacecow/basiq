@@ -1,5 +1,9 @@
-def options(lbl)
-  find_field(lbl).all(:css,"option").map{|e| e.text.blank? ? "BLANK" : e.text}.join(', ')
+def options(lbl,scope=nil)
+  if scope.nil?
+    find_field(lbl).all(:css,"option").map{|e| e.text.blank? ? "BLANK" : e.text}.join(', ')
+  else
+    scope.find_field(lbl).all(:css,"option").map{|e| e.text.blank? ? "BLANK" : e.text}.join(', ')
+  end
 end
 def selected_value(s)
   begin
