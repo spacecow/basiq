@@ -36,7 +36,10 @@ end
 def have_image(s); have_xpath("//img[@alt='#{s}']") end
 def have_a_table(id); have_css("table##{id}") end
 def have_link(s); have_css("a",:text=>s) end
+
 def have_title(s); have_css("h1",:text=>s) end
+def have_subtitle(s); have_css("h3",:text=>s) end
+
 def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if s.instance_of? Symbol
@@ -81,15 +84,18 @@ def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
 
 def bottom_links; div('bottom_links') end
 def div(id,i=-1)
-  if i<0
-    find(:css,"div##{id}")
+  if i.instance_of? Symbol
+    id.find(:css,"div##{i}")
+  elsif i<0
+    find(:css,"div##{id.to_s}")
   else
-    all(:css,"div.#{id}")[i] 
+    all(:css,"div.#{id.to_s}")[i] 
   end
 end
 def divs(s); all(:css, "div.#{s}") end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
+def have_div(s); have_css("div##{s}") end
 
 private
   def lbl_id(s); find(:css,'label',:text=>s)[:for] end
