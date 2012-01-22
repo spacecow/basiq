@@ -93,9 +93,16 @@ def div(id,i=-1)
   end
 end
 def divs(s); all(:css, "div.#{s}") end
+def search_bar; div(:search_bar) end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
-def have_div(s); have_css("div##{s}") end
+def have_div(s,i=-1)
+  if i<0
+    have_css("div##{s}")
+  else
+    have_css("div.#{s}")
+  end
+end
 
 private
   def lbl_id(s); find(:css,'label',:text=>s)[:for] end
