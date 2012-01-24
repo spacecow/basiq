@@ -1,3 +1,17 @@
+def debug
+  begin
+    p "flash alert: #{div('flash_alert').text}"
+  rescue Capybara::ElementNotFound
+    p "no flash alert"
+  end
+  begin
+    p "flash notice: #{div('flash_notice').text}"
+  rescue Capybara::ElementNotFound
+    p "no flash notice"
+  end
+  p "current path: #{current_path}"
+end
+
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
   err = I18n.t("activerecord.errors.messages.#{err.to_s}",:count=>no) if err.instance_of? Symbol

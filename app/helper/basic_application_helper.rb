@@ -1,6 +1,7 @@
 module BasicApplicationHelper
   def add(s); t('labels.add',:o=>t(s)) end
   def add_to(s); t('labels.add_to',:o=>t(s)) end
+  def confirm(s); t('labels.confirm',:o=>t(s)) end
   def create(s); t('labels.create',:o=>t(s)) end
   def edit(s); t('labels.edit',:o=>t(s)) end
   def empty(s); t('labels.empty',:o=>t(s)) end

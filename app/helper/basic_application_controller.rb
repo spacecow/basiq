@@ -9,6 +9,9 @@ module BasicApplicationController
       t("successes.created",:o=>t(s)) 
     end
   end
+  def created_state(mdl,state)
+    t('successes.created_state',:o=>t(mdl),:state=>t(state).downcase)
+  end
   def deleted(s); t("successes.deleted",:o=>t(s)) end
   def notify(s); t("notices.#{s}") end
   def not_created(s)
