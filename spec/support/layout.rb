@@ -12,6 +12,10 @@ def debug
   p "current path: #{current_path}"
 end
 
+# FORM ---------------------------------------
+
+def form(s); find(:css, "form##{s}") end
+
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
   err = I18n.t("activerecord.errors.messages.#{err.to_s}",:count=>no) if err.instance_of? Symbol
