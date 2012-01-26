@@ -103,6 +103,8 @@ def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
 
 # DIVS --------------------------------------
 
+def have_form(id); have_css("form##{id}") end
+
 def have_div(id); have_css("div##{id}") end
 def bottom_links; div('bottom_links') end
 def div(id,i=-1)

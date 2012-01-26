@@ -4,6 +4,7 @@ def create_member(h={}); create_user_with_role(:member,h) end
 def create_miniadmin(h={}); create_user_with_role(:miniadmin,h) end
 def create_vip(h={}); create_user_with_role(:vip,h) end
 def signup(login="test@example.com")
+  visit signup_path
   fill_in "Login", :with => login
   fill_in "Password", :with => "secret"
   fill_in "Confirmation", :with => "secret"
