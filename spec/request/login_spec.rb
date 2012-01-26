@@ -19,6 +19,16 @@ describe "Sessions" do
     it "layout" do
       visit login_path
       page.should have_title('Login')
+      div('signup').should have_content("Don't have an account?")
+      div('signup').should have_button('Signup')
+    end
+
+    context "links to" do
+      it "signup page" do
+        visit login_path
+        div('signup').click_button 'Signup'
+        current_path.should eq signup_path
+      end
     end
 
     context "login user" do

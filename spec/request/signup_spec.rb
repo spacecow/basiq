@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "Users" do
+
   describe "root" do
     it "layout" do
       visit root_path
