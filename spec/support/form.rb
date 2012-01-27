@@ -7,7 +7,8 @@ def options(lbl,scope=nil)
 end
 def selected_value(s)
   begin
-    find_field(s).find(:xpath,"//option[@selected='selected']").text
+    find_field(s).value
+    #find_field(s).find(:xpath,"//option[@selected='selected']").text
   rescue
     nil 
   end
