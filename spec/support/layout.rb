@@ -52,7 +52,13 @@ end
 
 
 def have_image(s); have_xpath("//img[@alt='#{s}']") end
-def have_a_table(id); have_css("table##{id}") end
+def have_a_table(s,i=-1)
+  if i<0
+    have_css("table##{s}")
+  else
+    have_xpath("//table[@class='#{s}'][#{i+1}]") 
+  end
+end
 def have_link(s); have_css("a",:text=>s) end
 
 def have_title(s); have_css("h1",:text=>s) end
@@ -105,7 +111,6 @@ def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
 
 def have_form(id); have_css("form##{id}") end
 
-def have_div(id); have_css("div##{id}") end
 def bottom_links; div('bottom_links') end
 def div(id,i=-1)
   if i.instance_of? Symbol
@@ -117,6 +122,7 @@ def div(id,i=-1)
   end
 end
 def divs(s); all(:css, "div.#{s}") end
+def divs_no(s); divs(s).count end
 def search_bar; div(:search_bar) end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
@@ -124,7 +130,7 @@ def have_div(s,i=-1)
   if i<0
     have_css("div##{s}")
   else
-    have_css("div.#{s}")
+    have_xpath("//div[@class='#{s}'][#{i+1}]")
   end
 end
 
