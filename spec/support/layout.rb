@@ -15,6 +15,7 @@ end
 # FORM ---------------------------------------
 
 def form(s); find(:css, "form##{s}") end
+def value(s) find_field(s).value end
 
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
@@ -80,7 +81,13 @@ def li(s,i=0)
     s.all(:css,'li')[i]
   end
 end
-def lis; all(:css,"li") end
+def lis(s=nil)
+  if s.nil?
+    all(:css,"li") 
+  else
+    all(:css,"li##{tag_id(s,:li)}")
+  end
+end
 def row(i); table.all(:css,'tr')[i] end
 
 # TABLESMAP ----------------------------------
@@ -91,12 +98,21 @@ def tablemaps
   ret
 end
 
+def tableheader(id=0)
+  tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'th').map{|f| f.text.strip}}
+  begin
+    table(id).find(:css,'td')
+    tbl.pop
+  rescue
+  end
+  tbl.flatten
+end
 def tablemap(id=0)
   tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'td').map{|f| f.text.strip}}
   begin
     table(id).find(:css,'th')
     tbl.shift
-    tbl.unshift table(id).first(:css,'tr').all(:css,'th').map{|e| e.text.strip}
+    #tbl.unshift table(id).first(:css,'tr').all(:css,'th').map{|e| e.text.strip}
   rescue
   end
   tbl
@@ -104,7 +120,6 @@ end
 def tablerow(row,id=0); tablemap(id)[row] end
 def tablecell(row,col,id=0); tablerow(row,id)[col] end
 
-#def table(id=""); id.blank? ? find(:css,'table') : find(:css,"table##{id.to_s}") end
 def table(id=0); tables[id] end
 def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
@@ -115,6 +130,7 @@ def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
 def have_form(id); have_css("form##{id}") end
 
 def bottom_links; div('bottom_links') end
+def top_links; div('top_links') end
 def div(id,i=-1)
   if i.instance_of? Symbol
     id.find(:css,"div##{i}")
