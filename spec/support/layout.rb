@@ -36,8 +36,12 @@ end
 def have_numericality_error
   have_error(:numericality)
 end
-def have_hint(s)
-  have_css("p.inline-hints",:text=>s)
+def have_hint(s=nil)
+  if s.nil?
+    have_css("p.inline-hints")
+  else
+    have_css("p.inline-hints",:text=>s)
+  end
 end
 
 # FLASH --------------------------------------
@@ -89,6 +93,7 @@ def lis(s=nil)
   end
 end
 def row(i); table.all(:css,'tr')[i] end
+def cell(row,col); row(row).all(:css,'td')[col] end
 
 # TABLESMAP ----------------------------------
 
@@ -98,17 +103,17 @@ def tablemaps
   ret
 end
 
-def tableheader(id=0)
-  tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'th').map{|f| f.text.strip}}
+def tableheader(id=nil)
+  tbl = table(id,-1).all(:css,'tr').map{|e| e.all(:css,'th').map{|f| f.text.strip}}
   begin
-    table(id).find(:css,'td')
+    table(id,i).find(:css,'td')
     tbl.pop
   rescue
   end
   tbl.flatten
 end
-def tablemap(id=0)
-  tbl = table(id).all(:css,'tr').map{|e| e.all(:css,'td').map{|f| f.text.strip}}
+def tablemap(id=nil,i=-1)
+  tbl = table(id,i).all(:css,'tr').map{|e| e.all(:css,'td').map{|f| f.text.strip}}
   begin
     table(id).find(:css,'th')
     tbl.shift
@@ -117,10 +122,20 @@ def tablemap(id=0)
   end
   tbl
 end
-def tablerow(row,id=0); tablemap(id)[row] end
+def tablerow(row,id=nil,i=-1); tablemap(id,i)[row] end
 def tablecell(row,col,id=0); tablerow(row,id)[col] end
 
-def table(id=0); tables[id] end
+def table(id=nil,i=-1)
+  if i<0
+    if id.nil?
+      find(:css,"table")
+    else
+      find(:css,"table##{id}")
+    end
+  else
+    tables[i]
+  end
+end
 def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
