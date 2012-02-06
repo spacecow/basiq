@@ -21,6 +21,6 @@ module BasicApplicationHelper
   private
 
     def labels(lbl,o,i)
-      t(lbl, o:t(o,count:i), :scope=>:labels)
+      t(lbl, o:pl(o,i), :scope=>:labels)
     end
 end
