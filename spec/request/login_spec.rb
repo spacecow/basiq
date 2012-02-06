@@ -4,8 +4,8 @@ describe "Sessions" do
   describe "root" do
     it "layout" do
       visit root_path
-      page.should have_link('Login')
-      page.should_not have_link('Logout')
+      user_nav.should have_link('Login')
+      user_nav.should_not have_link('Logout')
     end
 
     it "link to login" do

@@ -48,6 +48,7 @@ describe "Users" do
       it "logs the user in" do
         signup
         page.should have_link('Logout')
+        page.should_not have_link('Signup')
       end
 
       it "creates the user as a member" do

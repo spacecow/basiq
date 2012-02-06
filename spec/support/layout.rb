@@ -30,9 +30,8 @@ def have_duplication_error; have_error(:taken) end
 def have_greater_than_error(no)
   have_error(:greater_than,no)
 end
-def have_inclusion_error
-  have_error(:inclusion)
-end
+def have_inclusion_error; have_error(:inclusion) end
+def have_invalid_error; have_error(:invalid) end
 def have_numericality_error
   have_error(:numericality)
 end
