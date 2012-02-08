@@ -1,13 +1,13 @@
 module BasicApplicationHelper
-  def add(s); t('labels.add',:o=>t(s)) end
-  def add_to(s); t('labels.add_to',:o=>t(s)) end
+  def add(s); jt('labels.add',:o=>jt(s)) end
+  def add_to(s); jt('labels.add_to',:o=>jt(s)) end
   def cancel(o,i=1) labels(:cancel,o,i) end
   def confirm(o,i=1) labels(:confirm,o,i) end
   def create(o,i=1) labels(:create,o,i) end
   def edit(o,i=1) labels(:edit,o,i) end
-  def empty(s); t('labels.empty',:o=>t(s)) end
-  def ft(s); t("formtastic.labels.#{s.to_s}") end
-  def mess(s) t(s,:scope=>:messages) end
+  def empty(s); jt('labels.empty',:o=>jt(s)) end
+  def ft(s); jt("formtastic.labels.#{s.to_s}") end
+  def mess(s) jt("messages.#{s}") end
   def minititle(s); raw "<h2>#{s}</h2>" end
   def new(o,i=1) labels(:new,o,i) end
   def subtitle(s); raw "<h3>#{s}</h3>" end
@@ -21,6 +21,6 @@ module BasicApplicationHelper
   private
 
     def labels(lbl,o,i)
-      t(lbl, o:pl(o,i), :scope=>:labels)
+      jt("labels.#{lbl}", o:pl(o,i))
     end
 end
