@@ -21,7 +21,7 @@ module BasicApplicationController
   def emptied(s) jt('successes.emptied',:o=>jt(s)) end
   def jt(s,*opt)
     TRANSLATION_LOG.debug s
-    t(s,opt)
+    t(s,opt.first)
   end
   def notify(s) jt("notices.#{s}") end
   def not_created(o)
