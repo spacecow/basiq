@@ -20,7 +20,7 @@ module BasicApplicationController
   def deleted_adv(o,name); succ_adv(:deleted,o,name) end
   def emptied(s) jt('successes.emptied',:o=>jt(s)) end
   def jt(s,*opt)
-    TRANSLATION_LOG.debug s
+    #TRANSLATION_LOG.debug s
     t(s,opt)
   end
   def notify(s) jt("notices.#{s}") end
