@@ -10,6 +10,9 @@ module BasicApplicationHelper
   def mess(s) jt("messages.#{s}") end
   def minititle(s); raw "<h2>#{s}</h2>" end
   def new(o,i=1) labels(:new,o,i) end
+  def submit(f,mdl)
+    f.submit mdl.new_record? ? create(mdl.class.to_s.downcase) : update(mdl.class.to_s.downcase) 
+  end
   def subtitle(s); raw "<h3>#{s}</h3>" end
   def sure?; mess(:sure?) end
   def title(s)
