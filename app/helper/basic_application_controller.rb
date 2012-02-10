@@ -16,12 +16,12 @@ module BasicApplicationController
   def created_state(mdl,state)
     succ(:created_state,:o=>jt(mdl),:state=>jt(state).downcase)
   end
-  def deleted(s) succ(:deleted,:o=>jt(s)) end
+  def deleted(s,i=1) succ(:deleted,:o=>pl(s,i)) end
   def deleted_adv(o,name); succ_adv(:deleted,o,name) end
   def emptied(s) succ(:emptied,:o=>jt(s)) end
   def jt(s,*opt)
     #TRANSLATION_LOG.debug s
-    t(s,opt.first)
+    I18n.t(s,opt.first)
   end
   def notify(s) jt("notices.#{s}") end
   def not_created(o)
@@ -29,12 +29,11 @@ module BasicApplicationController
   end
   def pl(s,i=2)
     if i==1 
-      jt("#{s}.one",count:i) =~ /translation missing/ ? jt(s) : jt("#{s}.one",count:i)
+      jt("#{s}.one",count:1) =~ /translation missing/ ? jt(s) : jt("#{s}.one",count:1)
     else
       jt("#{s}.other",count:i)
     end
   end
-  def pt(s) jt(s).pluralize end
   def removed_from_cart(o,name,i=1)
     if i==1
       succ("removed_from_cart.one", o:pl(o,i), name:name, count:i)

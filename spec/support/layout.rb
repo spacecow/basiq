@@ -98,7 +98,7 @@ def cell(row,col); row(row).all(:css,'td')[col] end
 
 def tablemaps
   ret = []
-  tables.each_index{|i| ret.push tablemap(i)} 
+  tables.each_index{|i| ret.push tablemap(nil,i)} 
   ret
 end
 
@@ -122,7 +122,7 @@ def tablemap(id=nil,i=-1)
   tbl
 end
 def tablerow(row,id=nil,i=-1); tablemap(id,i)[row] end
-def tablecell(row,col,id=0); tablerow(row,id)[col] end
+def tablecell(row,col,id=nil,i=-1); tablerow(row,id,i)[col] end
 
 def table(id=nil,i=-1)
   if i<0
