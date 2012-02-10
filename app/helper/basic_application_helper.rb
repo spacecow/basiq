@@ -1,5 +1,5 @@
 module BasicApplicationHelper
-  def add(s); jt('labels.add',:o=>jt(s)) end
+  def add(o,i=1); labels(:add,o,i) end
   def add_to(s); jt('labels.add_to',:o=>jt(s)) end
   def cancel(o,i=1) labels(:cancel,o,i) end
   def confirm(o,i=1) labels(:confirm,o,i) end
@@ -10,6 +10,7 @@ module BasicApplicationHelper
   def mess(s) jt("messages.#{s}") end
   def minititle(s); raw "<h2>#{s}</h2>" end
   def new(o,i=1) labels(:new,o,i) end
+  def remove(o,i=1) labels(:remove,o,i) end
   def submit(f,mdl)
     f.submit mdl.new_record? ? create(mdl.class.to_s.downcase) : update(mdl.class.to_s.downcase) 
   end

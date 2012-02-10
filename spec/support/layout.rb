@@ -15,7 +15,10 @@ end
 # FORM ---------------------------------------
 
 def form(s); find(:css, "form##{s}") end
-def value(s) find_field(s).value end
+def value(s,i=0) 
+  ids = all(:css,"label",text:s).select{|e| e.text =~ /^#{s}\*?$/}.map{|e| e[:for]}
+  find_field(ids[i]).value 
+end
 
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
@@ -75,7 +78,8 @@ def li(s,i=0)
   return lis[s] if s.instance_of? Fixnum
   if s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
-    all(:css, "li##{tag_id(s,:li)}")[i]
+    #all(:css, "li##{tag_id(s,:li)}")[i]
+    find(:css, "li##{tag_ids(:li,s)[i]}")
   elsif s.instance_of? String
     #find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
     all(:css,"li##{tag_id(lbl_id(s),:li)}")[i]
@@ -90,6 +94,9 @@ def lis(s=nil)
   else
     all(:css,"li##{tag_id(s,:li)}")
   end
+end
+def lis_no(s)
+  tag_ids(:li,s).count
 end
 def row(i); table.all(:css,'tr')[i] end
 def cell(row,col); row(row).all(:css,'td')[col] end
@@ -137,7 +144,13 @@ def table(id=nil,i=-1)
 end
 def tables; all(:css,'table') end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
-def tag_ids(tag); all(:css, tag.to_s).map{|e| e[:id]} end
+def tag_ids(tag,s=nil); 
+  if s.nil? 
+    all(:css, tag.to_s).map{|e| e[:id]}
+  else
+    all(:css, tag.to_s).map{|e| e[:id]}.select{|e| e=~/#{s}/}
+  end
+end
 
 # DIVS --------------------------------------
 
@@ -168,4 +181,6 @@ def have_div(s,i=-1)
 end
 
 private
-  def lbl_id(s); find(:css,'label',:text=>s)[:for] end
+  def lbl_id(s) 
+    find(:css,'label',:text=>s)[:for]
+  end
