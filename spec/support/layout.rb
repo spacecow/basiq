@@ -16,8 +16,12 @@ end
 
 def form(s); find(:css, "form##{s}") end
 def value(s,i=0) 
-  ids = all(:css,"label",text:s).select{|e| e.text =~ /^#{s}\*?$/}.map{|e| e[:for]}
-  find_field(ids[i]).value 
+  if s.instance_of? String
+    ids = all(:css,"label",text:s).select{|e| e.text =~ /^#{s}\*?$/}.map{|e| e[:for]}
+    find_field(ids[i]).value 
+  else
+    find_field(s.to_s).value
+  end
 end
 
 # ERRORS -------------------------------------
