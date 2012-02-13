@@ -4,8 +4,8 @@ require 'spec_helper'
 describe "Translations" do
   describe "index" do
     before(:each) do
-#      create_admin(:email=>'admin@example.com')
-#      login('admin@example.com')
+      create_admin(:email=>'admin@example.com')
+      login('admin@example.com')
       TRANSLATION_STORE.flushdb
     end
 

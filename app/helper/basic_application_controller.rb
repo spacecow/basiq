@@ -45,10 +45,24 @@ module BasicApplicationController
   def updated_adv(o,name); succ_adv(:updated,o,name) end
 
   def current_user
-    @current_user ||= User.find(session[:userid]) if session[:userid]
+    @current_user ||= User.find(session_userid) if session_userid
   end
 
-  def session_userid(s) session[:userid] = s end
+  def session_original_url(*opt)
+    if opt.present? 
+      session[:original_url] = opt.first
+    else
+      session[:original_url]
+    end
+  end
+
+  def session_userid(*opt)
+    if opt.present? 
+      session[:userid] = opt.first 
+    else
+      session[:userid] 
+    end
+  end
 
   private
 

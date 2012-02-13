@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Sessions" do
-  describe "root" do
+  describe "login" do
     it "layout" do
       visit root_path
       user_nav.should have_link('Login')
@@ -46,9 +46,16 @@ describe "Sessions" do
       end
 
       it "should show the name of he logged in user" do
-        page.should have_content("Logged in as test")
+        page.should have_content("Logged in as test.")
       end
     end
+
+    it "redirects to wanted page after login" do
+      test = create_user("test")
+      visit user_path(test)
+      login("test")
+      current_path.should eq user_path(test)
+    end 
 
     it "login fails with incorrect information" do
       login("wrong")

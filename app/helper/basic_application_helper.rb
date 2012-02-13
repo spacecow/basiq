@@ -7,7 +7,7 @@ module BasicApplicationHelper
   def edit(o,i=1) labels(:edit,o,i) end
   def empty(s); jt('labels.empty',:o=>jt(s)) end
   def ft(s); jt("formtastic.labels.#{s.to_s}") end
-  def mess(s) jt("messages.#{s}") end
+  def mess(s,*opt) jt("messages.#{s}",*opt) end
   def minititle(s); raw "<h2>#{s}</h2>" end
   def new(o,i=1) labels(:new,o,i) end
   def remove(o,i=1) labels(:remove,o,i) end

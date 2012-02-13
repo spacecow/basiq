@@ -23,6 +23,9 @@ def value(s,i=0)
     find_field(s.to_s).value
   end
 end
+def have_submit_button(s)
+  have_xpath("//input[@type='submit' and @class='submit' and @value='#{s}']") 
+end
 
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
