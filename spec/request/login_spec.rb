@@ -38,6 +38,7 @@ describe "Sessions" do
       end
 
       it "should take you to the root path" do
+  save_and_open_page
         page.current_path.should == root_path
       end
 
