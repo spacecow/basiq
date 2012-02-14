@@ -1,6 +1,7 @@
 require 'spec_helper'
 
-describe "Users" do
+describe "Users", focus:true do
+
   describe "root" do
     it "layout" do
       visit root_path
@@ -23,6 +24,22 @@ describe "Users" do
       it "has a title" do
         page.should have_title('Signup')
       end
+  
+      it "has a userid field" do
+        value('Userid').should be_nil
+      end
+
+      it "has an email field" do
+        value('Email').should be_nil
+      end
+
+      it "has a password field" do
+        value('Password').should be_nil
+      end
+
+      it "has a password confirmation field" do
+        value('Confirmation').should be_nil
+      end
 
       it "has a create user button" do
         page.should have_submit_button('Create User')
@@ -38,8 +55,8 @@ describe "Users" do
 
       it "redirects to the root page" do
         current_path.should eq welcome_path
-      end
 
+      end
       it "shows an alert flash message" do
         page.should have_alert('You already have an account.')
       end
@@ -50,17 +67,24 @@ describe "Users" do
         current_path.should eq root_path
       end
 
-      it "redirects to wanted page after signup" do
-        test = create_user("test")
-        visit user_path(test)
-        signup
-        current_path.should eq user_path(test)
-      end
+      #it "redirects to wanted page after signup" do
+      #  test = create_user("test")
+      #  visit user_path(test)
+      #  signup
+      #  current_path.should eq user_path(test)
+      #end
 
       it "increases the user count" do
         lambda do 
           signup
         end.should change(User,:count).by(1)
+      end
+
+      it "creates a decoupled signup token" do
+        lambda do
+          signup
+        end.should change(SignupToken,:count).by(1)
+        User.last.signup_token.should be_nil 
       end
 
       it "creates a salt" do
@@ -75,14 +99,14 @@ describe "Users" do
 
       it "shows a flash message" do
         signup
-        page.should have_notice("Signed up and logged in.")
+        page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
       end
 
-      it "logs the user in" do
-        signup
-        page.should have_link('Logout')
-        page.should_not have_link('Signup')
-      end
+      #it "logs the user in" do
+      #  signup
+      #  page.should have_link('Logout')
+      #  page.should_not have_link('Signup')
+      #end
 
       it "creates the user as a member" do
         signup
@@ -108,6 +132,20 @@ describe "Users" do
         fill_in "Email", :with => "test@email.com"
         click_button "Create User"
         li(:email).should have_duplication_error
+      end
+
+      it "userid must be unique" do
+        Factory(:user,:userid=>"test")
+        fill_in "Userid", :with => "test"
+        click_button "Create User"
+        li(:userid).should have_duplication_error
+      end
+
+      it "userid can be blank" do
+        Factory(:user,:userid=>"")
+        fill_in "Userid", :with => ""
+        click_button "Create User"
+        li(:userid).should_not have_duplication_error
       end
 
       it "password confirmation is needed" do
