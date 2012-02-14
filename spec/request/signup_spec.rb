@@ -1,24 +1,21 @@
 require 'spec_helper'
 
-describe "Users", focus:true do
-
+describe "Users" do
   describe "root" do
+    before(:each){ visit signup_path }
+
     it "layout" do
-      visit root_path
       page.should have_link('Signup')
     end
 
     it "link to signup" do
-      visit root_path
       click_link 'Signup'
       page.current_path.should eq signup_path
     end
   end
 
   describe "new" do
-    before(:each) do
-      visit signup_path
-    end
+    before(:each){ visit signup_path }
 
     context "layout" do
       it "has a title" do
