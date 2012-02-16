@@ -37,6 +37,12 @@ describe "Users" do
         @token = SignupToken.create(email:@user.email)
       end
 
+      it "logs the user in" do
+        visit signup_confirmation_path(@token.token)
+        page.should have_link('Logout')
+        page.should_not have_link('Signup')
+      end
+
       it "redirects to wanted page after signup" do
         visit user_path(@user)
         visit signup_confirmation_path(@token.token)
@@ -56,12 +62,6 @@ describe "Users" do
       it "user and signup token are connected" do
         visit signup_confirmation_path(@token.token)
         User.last.signup_token.should eq SignupToken.last
-      end
-
-      it "logs the user in" do
-        visit signup_confirmation_path(@token.token)
-        page.should have_link('Logout')
-        page.should_not have_link('Signup')
       end
     end
 

@@ -90,8 +90,24 @@ describe "Users" do
 
       it "shows a flash message" do
         signup
-        page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
+        #page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
+        page.should have_notice("Signed up and logged in.")
       end
+
+# if mail works, these two should be deleted
+      it "logs the user in" do
+        signup
+        page.should have_link('Logout')
+        page.should_not have_link('Signup')
+      end
+
+      it "redirects to wanted page after signup" do
+        user = create_user("test")
+        visit user_path(user)
+        signup
+        current_path.should eq user_path(user)
+      end
+# ------------------------------------------
 
       it "creates the user as a member" do
         signup
