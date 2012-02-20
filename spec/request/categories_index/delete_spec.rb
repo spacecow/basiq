@@ -4,7 +4,7 @@ describe "Categories" do
   context "index, delete root category without children" do
     before(:each) do
       login_admin
-      Factory(:category,name:'islam')
+      create_category('islam')
       #programming = Factory(:category,name:'programming')
       #Factory(:category, name:'io', parent_id:programming.id)
       visit categories_path
@@ -30,8 +30,8 @@ describe "Categories" do
   context "index, delete root category with children" do
     before(:each) do
       login_admin
-      programming = Factory(:category,name:'programming')
-      Factory(:category, name:'io', parent_id:programming.id)
+      programming = create_category('programming')
+      create_category('io',programming.id)
       visit categories_path
     end
 

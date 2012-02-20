@@ -15,7 +15,7 @@ describe "Translations" do
         visit translations_path
         fill_in 'en_0_value', :with => 'Rock Science'
         click_button 'Update Translations'
-        I18n.t("categories.rock_science").should eq 'Rock Science'
+        I18n.t("categories.rock_science",:locale=>:en).should eq 'Rock Science'
       end 
 
       it "persian" do

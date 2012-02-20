@@ -19,7 +19,7 @@ describe "Categories" do
 
   context "index, member layout with categories" do
     before(:each) do
-      @ruby = Factory(:category, name:'ruby')
+      @ruby = create_category('ruby')
       visit categories_path
     end
 
@@ -80,8 +80,8 @@ describe "Categories" do
     before(:each) do
       create_admin(:email=>'admin@example.com')
       login('admin@example.com')
-      programming = Factory(:category, name:'programming')
-      Factory(:category, name:'ruby', parent_id:programming.id)
+      programming = create_category('programming')
+      create_category('ruby',programming.id)
       visit categories_path
     end
 
@@ -118,7 +118,7 @@ describe "Categories" do
     before(:each) do
       create_admin(:email=>'admin@example.com')
       login('admin@example.com')
-      Factory(:category,name:'programming')
+      create_category('programming')
       visit categories_path
       div(:category,0).click_link('Edit')
     end

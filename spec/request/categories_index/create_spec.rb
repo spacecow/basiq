@@ -5,7 +5,7 @@ describe "Categories" do
     before(:each) do
       create_admin(:email=>'admin@example.com')
       login('admin@example.com')
-      Factory(:category,name:'programming')
+      create_category('programming')
       visit categories_path
       fill_in 'Name', with:'ruby'
       select 'programming', from:'Parent'
@@ -19,7 +19,7 @@ describe "Categories" do
 
     it "sets the name of the category" do
       click_button 'Create Category'
-      Category.last.name.should eq 'ruby'
+      Category.last.name(I18n.locale).should eq 'ruby'
     end
 
     it "sets the parent-children relation" do
@@ -46,8 +46,9 @@ describe "Categories" do
       end
       
       it "name cannot be duplicated" do
-        Factory(:category,name:'ruby')
+        create_category('ruby')
         click_button 'Create Category'
+save_and_open_page
         li(:name).should have_duplication_error        
       end
     end
