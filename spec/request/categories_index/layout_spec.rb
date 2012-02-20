@@ -19,7 +19,7 @@ describe "Categories" do
 
   context "index, member layout with categories" do
     before(:each) do
-      Factory(:category, name:'ruby')
+      @ruby = Factory(:category, name:'ruby')
       visit categories_path
     end
 
@@ -31,12 +31,20 @@ describe "Categories" do
       div(:categories).divs_no(:category).should be(1)
     end
 
-    it "shows the name of the category" do
-      div(:category,0).div(:name).should have_content('ruby')
+    it "shows the name of the category as a link" do
+      div(:category,0).div(:name).should have_link('ruby')
     end
 
-    it "category has not edit link" do
+    it "link to the category show page" do
+      div(:category,0).div(:name).click_link 'ruby'
+      current_path.should eq category_path(@ruby)
+    end
+
+    it "category has no edit link" do
       div(:category,0).div(:actions).should_not have_link('Edit')
+    end
+    it "category has no delete link" do
+      div(:category,0).div(:actions).should_not have_link('Del')
     end
   end
 
@@ -72,20 +80,37 @@ describe "Categories" do
     before(:each) do
       create_admin(:email=>'admin@example.com')
       login('admin@example.com')
-      Factory(:category,name:'programming')
+      programming = Factory(:category, name:'programming')
+      Factory(:category, name:'ruby', parent_id:programming.id)
       visit categories_path
     end
 
     it "category has an edit link" do
       div(:category,0).div(:actions).should have_link('Edit')
     end
+    it "category has a delete link" do
+      div(:category,0).div(:actions).should have_link('Del')
+    end
+
 
     it "parent options has categories" do
-      options('Parent').should eq "BLANK, programming"
+      options('Parent').should eq "BLANK, programming, programming\\ruby"
     end
 
     it "no parent is selected" do
       selected_value('Parent').should be_empty 
+    end
+
+    context "errors" do
+      before(:each){ click_button 'Create Category' }
+
+      it "parent options has categories" do
+        options('Parent').should eq "BLANK, programming, programming\\ruby"
+      end
+
+      it "no parent is selected" do
+        selected_value('Parent').should be_empty 
+      end
     end
   end
 
@@ -112,6 +137,18 @@ describe "Categories" do
 
     it "has an update category button" do
       page.should have_button('Update Category')
+    end
+
+    context "errors" do
+      before(:each){ click_button 'Update Category' }
+
+      it "parent options has categories" do
+        options('Parent').should eq "BLANK, programming"
+      end
+
+      it "no parent is selected" do
+        selected_value('Parent').should be_empty 
+      end
     end
   end
 end

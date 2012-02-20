@@ -4,3 +4,8 @@ def login(user="test",password="secret")
   fill_in "Password", :with => password 
   click_button "Login"
 end
+
+def login_admin 
+  create_admin(:email=>'admin@example.com')
+  login('admin@example.com')
+end
