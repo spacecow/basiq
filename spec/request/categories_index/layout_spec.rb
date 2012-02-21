@@ -59,8 +59,8 @@ describe "Categories" do
       page.should have_subtitle('New Category')
     end
 
-    it "name field is emtpy" do
-      value('Name').should be_nil
+    it "name field is empty" do
+      find_field('Name').value.should be_nil
     end
 
     it "parent options are empty" do
@@ -94,7 +94,7 @@ describe "Categories" do
 
 
     it "parent options has categories" do
-      options('Parent').should eq "BLANK, programming, programming\\ruby"
+      options('Parent').should eq "BLANK, programming, #{Category.separate(I18n.locale,'programming','ruby')}"
     end
 
     it "no parent is selected" do
@@ -105,7 +105,7 @@ describe "Categories" do
       before(:each){ click_button 'Create Category' }
 
       it "parent options has categories" do
-        options('Parent').should eq "BLANK, programming, programming\\ruby"
+        options('Parent').should eq "BLANK, programming, #{Category.separate(I18n.locale,'programming','ruby')}"
       end
 
       it "no parent is selected" do
@@ -132,7 +132,15 @@ describe "Categories" do
     end
 
     it "fills in the name field" do
-      value('Name').should eq 'programming'
+      find_field('Name').value.should eq 'programming'
+    end
+
+    it "parent options does not include self" do
+      options('Parent').should eq 'BLANK'
+    end
+
+    it "no parent is selected" do
+      selected_value('Parent').should be_empty 
     end
 
     it "has an update category button" do
@@ -140,10 +148,13 @@ describe "Categories" do
     end
 
     context "errors" do
-      before(:each){ click_button 'Update Category' }
+      before(:each) do
+        fill_in 'Name', with:''
+        click_button 'Update Category'
+      end
 
       it "parent options has categories" do
-        options('Parent').should eq "BLANK, programming"
+        options('Parent').should eq "BLANK"
       end
 
       it "no parent is selected" do

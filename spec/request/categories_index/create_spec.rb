@@ -48,7 +48,6 @@ describe "Categories" do
       it "name cannot be duplicated" do
         create_category('ruby')
         click_button 'Create Category'
-save_and_open_page
         li(:name).should have_duplication_error        
       end
     end
