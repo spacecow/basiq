@@ -13,10 +13,15 @@ describe "Sessions" do
       user_nav.should have_link('Logout')
     end
 
-    it "link to login" do
-      visit root_path
-      click_link 'Logout' 
-      page.current_path.should eq root_path 
+    context "link to logout" do
+      before(:each) do
+        visit root_path
+        click_link 'Logout' 
+      end
+    
+      it "redirects to the root path" do
+        page.current_path.should eq root_path 
+      end
     end
 
     context "logout user" do

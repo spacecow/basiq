@@ -9,3 +9,7 @@ def login_admin
   create_admin(:email=>'admin@example.com')
   login('admin@example.com')
 end
+
+def create_user(user)
+  Factory(:user,username:user)
+end
