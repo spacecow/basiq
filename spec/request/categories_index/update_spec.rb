@@ -10,7 +10,7 @@ describe "Categories" do
       create_category('io',programming.id)
       visit categories_path
       div(:category,0).click_link('Edit')
-      value('Name').should eq 'programming'
+      find_field('Name').value.should eq 'programming'
       fill_in 'Name', with:'red'
       select 'ruby', from:'Parent'
     end
@@ -28,7 +28,7 @@ describe "Categories" do
 
     it "updates the names_depth_cache of the category" do
       click_button 'Update Category'
-      Category.all.map(&"names_depth_cache_#{I18n.locale}".to_sym).should eq ['ruby\red','ruby','ruby\red\io']
+      Category.all.map(&"names_depth_cache_#{I18n.locale}".to_sym).should eq [Category.separate(I18n.locale,'ruby','red'),'ruby',Category.separate(I18n.locale,'ruby','red','io')]
     end
 
     it "updates the parent of the category" do
