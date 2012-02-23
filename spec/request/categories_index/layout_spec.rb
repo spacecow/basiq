@@ -24,11 +24,11 @@ describe "Categories" do
     end
 
     it "has a categories div" do
-      page.should have_div(:categories)
+      page.should have_div(:nested_categories)
     end
 
     it "has a category class div" do
-      div(:categories).divs_no(:category).should be(1)
+      div(:nested_categories).divs_no(:category).should be(1)
     end
 
     it "shows the name of the category as a link" do
