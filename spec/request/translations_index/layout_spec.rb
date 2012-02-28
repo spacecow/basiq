@@ -13,7 +13,6 @@ describe "Translations" do
       it "has a title" do
         page.should have_title('Translations')
       end
-
       it "has a subtitle" do
         page.should have_subtitle('New Translation')
       end
