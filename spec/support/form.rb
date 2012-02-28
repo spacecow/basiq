@@ -7,8 +7,11 @@ def options(lbl,scope=nil)
 end
 def selected_value(s)
   begin
+    #fd_field(s).text
     find_field(s).value
     #find_field(s).find(:xpath,"//option[@selected='selected']").text
+    #doesnt work, cause the find looks at other filed that the only
+    #one i thought it was supposed to do
   rescue
     nil 
   end

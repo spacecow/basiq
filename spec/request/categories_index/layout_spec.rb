@@ -68,7 +68,7 @@ describe "Categories" do
     end
 
     it "no parent is selected" do
-      selected_value('Parent').should be_empty 
+      selected_value('Parent').should be_blank 
     end
 
     it "has a create category button" do
@@ -98,7 +98,7 @@ describe "Categories" do
     end
 
     it "no parent is selected" do
-      selected_value('Parent').should be_empty 
+      selected_value('Parent').should be_blank 
     end
 
     context "errors" do
@@ -109,7 +109,7 @@ describe "Categories" do
       end
 
       it "no parent is selected" do
-        selected_value('Parent').should be_empty 
+        selected_value('Parent').should be_blank 
       end
     end
   end
@@ -140,7 +140,7 @@ describe "Categories" do
     end
 
     it "no parent is selected" do
-      selected_value('Parent').should be_empty 
+      selected_value('Parent').should be_blank 
     end
 
     it "has an update category button" do
@@ -158,7 +158,7 @@ describe "Categories" do
       end
 
       it "no parent is selected" do
-        selected_value('Parent').should be_empty 
+        selected_value('Parent').should be_blank 
       end
     end
   end
