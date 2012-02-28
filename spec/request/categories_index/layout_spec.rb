@@ -23,7 +23,7 @@ describe "Categories" do
       visit categories_path
     end
 
-    it "has a categories div" do
+    it "has a nested_categories div" do
       page.should have_div(:nested_categories)
     end
 
