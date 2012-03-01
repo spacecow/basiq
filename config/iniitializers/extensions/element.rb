@@ -26,6 +26,7 @@ module Capybara
           nil 
         end
       end
+      def tables_no(s); tables(s).count end
 
       private
 

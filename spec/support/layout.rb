@@ -85,8 +85,8 @@ def li(s,i=0)
   return lis[s] if s.instance_of? Fixnum
   if s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
-    #all(:css, "li##{tag_id(s,:li)}")[i]
-    find(:css, "li##{tag_ids(:li,s)[i]}")
+    all(:css, "li##{tag_id(s,:li)}")[i]
+    #find(:css, "li##{tag_ids(:li,s)[i]}")
   elsif s.instance_of? String
     #find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
     all(:css,"li##{tag_id(lbl_id(s),:li)}")[i]
@@ -149,7 +149,13 @@ def table(id=nil,i=-1)
     tables[i]
   end
 end
-def tables; all(:css,'table') end
+def tables(s=nil)
+  if s.nil?
+    all(:css,'table')
+  else
+    all(:css,"table.#{s}")
+  end
+end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag,s=nil); 
   if s.nil? 
