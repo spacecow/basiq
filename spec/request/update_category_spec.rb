@@ -3,13 +3,16 @@ require 'spec_helper'
 describe "Categories" do
   before(:each){ login_admin }
 
-  context "new, create category" do
-    before(:each){ fill_in_owner }
+  context "edit, update category" do
+    before(:each) do
+      word = create_word("cat","has a tail")
+      visit edit_word_path(word)
+    end
     
-    it "adds an owner to the database" do
+    it "does not change the owner count in the database" do
       lambda do
-        click_button "Create #{Category.owner}"
-      end.should change(Category.owner,:count).by(1)
+        click_button "Update #{Category.owner}"
+      end.should change(Category.owner,:count).by(0)
     end
 
     context "no category" do
@@ -17,12 +20,12 @@ describe "Categories" do
 
       it "adds no category to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(0)
       end
       it "adds no categorization to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(0)
       end
     end
@@ -35,17 +38,17 @@ describe "Categories" do
 
       it "adds no category to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(0)
       end
       it "adds a categorization to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(1)
       end
 
       it "connects the category to the owner" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Categorization.last_owner.should eq Category.last_owner
         Categorization.last.category.should eq Category.last
       end
@@ -60,17 +63,17 @@ describe "Categories" do
 
       it "adds no categories to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(0)
       end
       it "adds categorizations to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(2)
       end
 
       it "connects the categories to the owner" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Categorization.first_owner.should eq Category.first_owner
         Categorization.first.category.should eq Category.all[-2]
         Categorization.last_owner.should eq Category.last_owner
@@ -85,17 +88,17 @@ describe "Categories" do
 
       it "adds a category to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(1)
       end
       it "adds a categorization to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(1)
       end
 
       it "connects the category to the owner" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Categorization.last_owner.should eq Category.last_owner
         Categorization.last.category.should eq Category.last
       end
@@ -109,17 +112,17 @@ describe "Categories" do
 
       it "adds no category to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(0)
       end
       it "adds a categorization to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(1)
       end
 
       it "connects the category to the owner" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Categorization.last_owner.should eq Category.last_owner
         Categorization.last.category.should eq Category.last
       end
@@ -132,12 +135,12 @@ describe "Categories" do
 
       it "adds a category to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(1)
       end
       it "adds a categorization to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Categorization,:count).by(1)
       end
     end
@@ -153,12 +156,12 @@ describe "Categories" do
 
       it "adds categories to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(2)
       end
 
       it "categories are chained" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Category.last.parent.should eq Category.all[-2]
         Category.all[-2].children.should eq [Category.last]
       end
@@ -176,18 +179,18 @@ describe "Categories" do
 
       it "adds categories to the database" do
         lambda do
-          click_button "Create #{Category.owner}"
+          click_button "Update #{Category.owner}"
         end.should change(Category,:count).by(1)
       end
 
       it "categories are chained" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Category.last.parent.should eq Category.all[-2]
         Category.all[-2].children.should eq [Category.last]
       end
 
       it "a tree is saved in names_depth_cache" do
-        click_button "Create #{Category.owner}"
+        click_button "Update #{Category.owner}"
         Category.all[-2].names_depth_cache_ir.should eq 'poem'
         Category.last.names_depth_cache_ir.should eq 'poem\Limmerick'
       end
