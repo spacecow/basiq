@@ -6,8 +6,14 @@ def login(user="test",password="secret")
 end
 
 def login_admin 
-  create_admin(:email=>'admin@example.com')
+  user = create_admin(:email=>'admin@example.com')
   login('admin@example.com')
+  user
+end
+def login_member 
+  user = create_member(:email=>'member@example.com')
+  login('member@example.com')
+  user
 end
 
 def create_user(user)

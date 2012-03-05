@@ -19,6 +19,8 @@ module BasicApplicationController
   def deleted(s,i=1) succ(:deleted,:o=>pl(s,i)) end
   def deleted_adv(o,name); succ_adv(:deleted,o,name) end
   def emptied(s) succ(:emptied,:o=>jt(s)) end
+  def english?; get_language == :en end
+  def get_language; I18n.locale end
   def jt(s,*opt)
     #TRANSLATION_LOG.debug s
     I18n.t(s,opt.first)
@@ -31,7 +33,11 @@ module BasicApplicationController
     if i==1 
       jt("#{s}.one",count:1) =~ /translation missing/ ? jt(s) : jt("#{s}.one",count:1)
     else
-      jt("#{s}.other",count:i)
+      if english?
+        jt("#{s}.other",count:i)
+      else
+        jt("#{s}.other",count:1)
+      end
     end
   end
   def removed_from_cart(o,name,i=1)

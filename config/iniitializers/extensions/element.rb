@@ -26,6 +26,8 @@ module Capybara
           nil 
         end
       end
+      def rows_no; all(:css,'tr').count end
+      def tables_no(s); tables(s).count end
 
       private
 

@@ -105,7 +105,7 @@ end
 def lis_no(s)
   tag_ids(:li,s).count
 end
-def row(i); table.all(:css,'tr')[i] end
+def row(i,s=nil); table(s).all(:css,'tr')[i] end
 def cell(row,col); row(row).all(:css,'td')[col] end
 
 # TABLESMAP ----------------------------------
@@ -149,7 +149,13 @@ def table(id=nil,i=-1)
     tables[i]
   end
 end
-def tables; all(:css,'table') end
+def tables(s=nil)
+  if s.nil?
+    all(:css,'table')
+  else
+    all(:css,"table.#{s}")
+  end
+end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag,s=nil); 
   if s.nil? 
