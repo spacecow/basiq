@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Words" do
+describe "Categories" do
   before(:each){ login_admin }
 
   context "new, create category" do
