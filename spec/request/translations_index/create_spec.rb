@@ -3,9 +3,7 @@ require 'spec_helper'
 describe "Translations" do
   describe "index" do
     before(:each) do
-      create_admin(:email=>'admin@example.com')
-      login('admin@example.com')
-      TRANSLATION_STORE.flushdb
+      login_admin
       visit translations_path
     end
 
@@ -22,46 +20,83 @@ describe "Translations" do
 
     context "create translation" do
       before(:each) do
-        locale = create_locale('en')
-        fill_in 'Key', :with => 'action'
-        fill_in 'Value', :with => 'Action'
-        fill_in 'Locale', :with => locale.id 
+        fill_in 'Key', :with => 'aadog'
+        fill_in 'Value', :with => 'dog'
+        fill_in 'Locale', with:'en'
+      end
+
+      context "create locale on the fly" do
+        context "with existing locale" do
+          before(:each) do
+            locale = Factory(:locale, name:'en')
+            fill_in 'Locale', with:locale.id
+          end
+
+          it "adds no locale to the database" do
+            lambda{ click_button "Create"
+            }.should change(Locale,:count).by(0)
+          end 
+
+          it "sets the value" do
+            click_button 'Create Translation'
+            TRANSLATION_STORE['en.aadog'].should eq '"dog"'
+          end
+        end
+
+        context "with a new locale" do
+          before(:each) do
+            fill_in 'Locale', with:'en'
+          end
+
+          it "adds a locale to the database" do
+            lambda{ click_button "Create"
+            }.should change(Locale,:count).by(1)
+          end 
+
+          it "sets the value" do
+            click_button 'Create Translation'
+            TRANSLATION_STORE['en.aadog'].should eq '"dog"'
+          end
+        end
+
+        context "with a new locale that already exists" do
+          before(:each) do
+            locale = Factory(:locale, name:'en')
+            fill_in 'Locale', with:'en'
+          end
+
+          it "adds no locale to the database" do
+            lambda{ click_button "Create"
+            }.should change(Locale,:count).by(0)
+          end 
+
+          it "sets the value" do
+            click_button 'Create Translation'
+            TRANSLATION_STORE['en.aadog'].should eq '"dog"'
+          end
+        end
+
+        context "with new category with digits" do
+          before(:each) do
+            fill_in 'Locale', with:'666' 
+          end
+
+          it "adds no category to the database" do
+            lambda{ click_button "Create"
+            }.should change(Locale,:count).by(0)
+          end
+
+          it "sets no value" do
+            click_button 'Create Translation'
+            TRANSLATION_STORE['en.aadog'].should be_nil
+          end
+        end
       end
 
       it "adds no translation to the database" do
         lambda do
           click_button 'Create Translation'
         end.should change(Translation,:count).by(0)
-      end
-      it "adds no locale to the database" do
-        lambda do
-          click_button 'Create Translation'
-        end.should change(Locale,:count).by(0)
-      end
-
-      it "sets the key" do
-        click_button 'Create Translation'
-        TRANSLATION_STORE.keys.should eq ['en.action']
-      end
-      it "sets the value" do
-        click_button 'Create Translation'
-        TRANSLATION_STORE['en.action'].should eq '"Action"'
-      end
-
-      context "create locale on the fly" do
-        before(:each) do
-          fill_in 'Locale', :with => 'en.messages'
-        end
-
-        it "adds a locale to the database" do
-          lambda do
-            click_button 'Create Translation'
-          end.should change(Locale,:count).by(1)
-        end
-        it "sets the locale" do
-          click_button 'Create Translation'
-          Locale.last.name.should eq 'en.messages'
-        end
       end
 
       context "errors:" do
@@ -81,6 +116,10 @@ describe "Translations" do
           li(:locale).should have_blank_error
         end
       end #errors
+
+      after(:each) do
+        TRANSLATION_STORE.del('en.aadog')
+      end
     end #create translation
   end #index
 end
