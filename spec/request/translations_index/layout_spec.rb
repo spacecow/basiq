@@ -3,9 +3,7 @@ require 'spec_helper'
 describe "Translations" do
   describe "index" do
     before(:each) do
-      create_admin(:email=>'admin@example.com')
-      login('admin@example.com')
-      TRANSLATION_STORE.flushdb
+      login_admin
       visit translations_path
     end
 
@@ -33,26 +31,28 @@ describe "Translations" do
       end
 
       context "translation list" do
-        it "empty -> has no table" do
-          page.should_not have_a_table('translations') 
-        end
         context "non-empty" do
-          it "has a table for the list" do
-            create_translation('dog')
+          before(:each) do
+            create_translation('aadog')
             visit translations_path
+          end
+
+          it "has a table for the list" do
             page.should have_a_table('translations') 
           end
 
           it "there exists an update button" do
-            create_translation('dog')
-            visit translations_path
             page.should have_button('Update Translations')
+          end
+    
+          after(:each) do
+            TRANSLATION_STORE.del('en.aadog')
           end
         end
 
         context "english" do
           before(:each) do
-            create_translation('dog','Dog','en')
+            create_translation('aadog','dog','en')
             visit translations_path
           end
 
@@ -60,14 +60,18 @@ describe "Translations" do
             tableheader.should eq ['Key','English']
           end
           it "shows one row" do
-            value(:en_0_value).should eq 'Dog'
+            value(:en_0_value).should eq 'dog'
+          end
+
+          after(:each) do
+            TRANSLATION_STORE.del('en.aadog')
           end
         end
 
         context "english and persian" do
           before(:each) do
-            create_translation('dog','Dog','en')
-            create_translation('bbq','BBQ','ir')
+            create_translation('aadog','dog','en')
+            create_translation('aabbq','BBQ','ir')
             visit translations_path
           end
 
@@ -77,8 +81,13 @@ describe "Translations" do
           it "shows two rows" do
             value(:en_0_value).should be_nil 
             value(:ir_0_value).should eq 'BBQ'
-            value(:en_1_value).should eq 'Dog'
+            value(:en_1_value).should eq 'dog'
             value(:ir_1_value).should be_nil 
+          end
+
+          after(:each) do
+            TRANSLATION_STORE.del('en.aadog')
+            TRANSLATION_STORE.del('ir.aabbq')
           end
         end
       end
