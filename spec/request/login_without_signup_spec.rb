@@ -16,11 +16,12 @@ describe "Sessions", focus:true do
   end
 
   describe "new" do
-    it "layout" do
-      visit login_path
-      page.should have_title('Login')
-      div('signup').should have_content("Don't have an account?")
-      div('signup').should have_button('Signup')
+    context "layout" do
+      before(:each){ visit login_path }
+
+      it "has a title" do
+        page.should have_title('Login')
+      end
     end
 
     context "links to" do
