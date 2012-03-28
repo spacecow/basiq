@@ -62,7 +62,7 @@ describe "Sessions" do
       end
 
       it "redirects to the login page" do
-        current_path.should eq login_path
+        current_path.should eq root_path
       end
 
       it "has no logout link" do

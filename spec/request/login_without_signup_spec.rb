@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Sessions", focus:true do
+describe "Sessions" do
   describe "login" do
     it "layout" do
       visit root_path
@@ -19,16 +19,8 @@ describe "Sessions", focus:true do
     context "layout" do
       before(:each){ visit login_path }
 
-      it "has a title" do
-        page.should have_title('Login')
-      end
-    end
-
-    context "links to" do
-      it "signup page" do
-        visit login_path
-        div('signup').click_button 'Signup'
-        current_path.should eq signup_path
+      it "has no title" do
+        page.should_not have_title('Login')
       end
     end
 
@@ -46,8 +38,8 @@ describe "Sessions", focus:true do
         page.should have_notice("Logged in.")
       end
 
-      it "should show the name of he logged in user" do
-        page.should have_content("Logged in as test.")
+      it "should not show the name of he logged in user" do
+        page.should_not have_content("Logged in as test.")
       end
     end
 
@@ -59,7 +51,7 @@ describe "Sessions", focus:true do
     end 
 
     it "login fails with incorrect information" do
-      login("wrong")
+      login("test","wrong")
       page.should have_alert("Invalid login or password.")
     end
   end

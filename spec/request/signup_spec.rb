@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe "Users" do
   describe "root" do
-    before(:each){ visit signup_path }
+    before(:each){ visit root_path }
 
     it "layout" do
-      page.should have_link('Signup')
+      user_nav.should have_link('Signup')
     end
 
     it "link to signup" do
-      click_link 'Signup'
-      page.current_path.should eq signup_path
+      user_nav.click_link 'Signup'
+      current_path.should eq signup_path
     end
   end
 
@@ -71,13 +71,6 @@ describe "Users" do
         end.should change(User,:count).by(1)
       end
 
-      it "creates a decoupled signup token" do
-        lambda do
-          signup
-        end.should change(SignupToken,:count).by(1)
-        User.last.signup_token.should be_nil 
-      end
-
       it "creates a salt" do
         signup
         User.last.password_salt.should_not be_nil
@@ -87,27 +80,6 @@ describe "Users" do
         signup
         User.last.password_hash.should_not be_nil
       end
-
-      it "shows a flash message" do
-        signup
-        #page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
-        page.should have_notice("Signed up and logged in.")
-      end
-
-# if mail works, these two should be deleted
-      it "logs the user in" do
-        signup
-        page.should have_link('Logout')
-        page.should_not have_link('Signup')
-      end
-
-      it "redirects to wanted page after signup" do
-        user = create_user("test")
-        visit user_path(user)
-        signup
-        current_path.should eq user_path(user)
-      end
-# ------------------------------------------
 
       it "creates the user as a member" do
         signup

@@ -1,6 +1,33 @@
 require 'spec_helper'
 
 describe "Users" do
+  describe "new" do
+    context "creates a new user" do
+      it "creates a decoupled signup token" do
+        lambda do
+          signup
+        end.should change(SignupToken,:count).by(1)
+        User.last.signup_token.should be_nil 
+      end
+      
+      it "" do
+        signup
+        ActionMailer::Base.deliveries.should_not be_empty
+      end
+
+      it "shows a flash message" do
+        signup
+        page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
+      end
+
+      it "does not log the user in" do
+        signup
+        page.should have_link('Login')
+        page.should have_link('Signup')
+      end
+    end
+  end
+
   describe "signup_confirmation" do
     context "confirmation with a wrong token" do
       before(:each) do

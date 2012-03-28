@@ -15,7 +15,9 @@ module Capybara
       def divs_text(s)
         divs(s).map{|e| e.text.strip}.join(', ')
       end
+      def h2; find(:css, "h2") end
       def li(i=0); lis[i] end
+      def lis_no(s); lis(s).count end
       def options(lbl)
         find_field(lbl).all(:css,"option").map{|e| e.text.blank? ? "BLANK" : e.text}.join(', ')
       end
@@ -31,7 +33,13 @@ module Capybara
 
       private
 
-        def lis; all('li') end
+        def lis(s=nil?)
+          if s.nil?
+            all('li')
+          else
+            all(:css, "li.#{s}")
+          end
+        end
     end
   end
 end

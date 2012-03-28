@@ -50,14 +50,15 @@ describe "Translations" do
           end
         end
 
-        context "english" do
+        context "english, japanese" do
           before(:each) do
             create_translation('aadog','dog','en')
+            create_translation('ja','Japanese','en')
             visit translations_path
           end
 
           it "has two headers" do
-            tableheader.should eq ['Key','English']
+            tableheader.should eq ['Key','English','Japanese']
           end
           it "shows one row" do
             value(:en_0_value).should eq 'dog'
@@ -65,18 +66,20 @@ describe "Translations" do
 
           after(:each) do
             TRANSLATION_STORE.del('en.aadog')
+            TRANSLATION_STORE.del('en.ja')
           end
         end
 
-        context "english and persian" do
+        context "english, persian and persian" do
           before(:each) do
             create_translation('aadog','dog','en')
             create_translation('aabbq','BBQ','ir')
+            create_translation('ja','Japanese','en')
             visit translations_path
           end
 
           it "has three headers" do
-            tableheader.should eq ['Key','English','Persian']
+            tableheader.should eq ['Key','English','Japanese','Persian']
           end
           it "shows two rows" do
             value(:en_0_value).should be_nil 
@@ -88,6 +91,7 @@ describe "Translations" do
           after(:each) do
             TRANSLATION_STORE.del('en.aadog')
             TRANSLATION_STORE.del('ir.aabbq')
+            TRANSLATION_STORE.del('en.ja')
           end
         end
       end
