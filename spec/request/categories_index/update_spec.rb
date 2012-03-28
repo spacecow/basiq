@@ -56,7 +56,7 @@ describe "Categories" do
       it "name cannot be duplicated" do
         fill_in 'Name', with:'ruby'
         click_button 'Update Category'
-        li(:name).should have_duplication_error        
+        li(:name_en).should have_duplication_error        
       end
     end
   end

@@ -14,7 +14,13 @@ end
 
 # FORM ---------------------------------------
 
-def form(s); find(:css, "form##{s}") end
+def form(s=nil)
+  if s.nil?
+    find(:css, 'form')
+  else
+    find(:css, "form##{s}")
+  end
+end
 def value(s,i=0) 
   if s.instance_of? String
     ids = all(:css,"label",text:s).select{|e| e.text =~ /^#{s}\**$/}.map{|e| e[:for]}
@@ -81,15 +87,18 @@ def have_link(s); have_css("a",:text=>s) end
 def have_title(s); have_css("h1",:text=>s) end
 def have_subtitle(s); have_css("h3",:text=>s) end
 
-def li(s,i=0)
+def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
-  if s.instance_of? Symbol
+  if i>=0
+    #all(:css,"li.#{s}")[i] 
+    all(:css, "li##{tag_id(s,:li)}")[i] #book
+  elsif s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
-    all(:css, "li##{tag_id(s,:li)}")[i]
+    all(:css, "li##{tag_id(s,:li)}")[i] #book
     #find(:css, "li##{tag_ids(:li,s)[i]}")
   elsif s.instance_of? String
-    #find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
-    all(:css,"li##{tag_id(lbl_id(s),:li)}")[i]
+    find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
+    #all(:css,"li##{tag_id(lbl_id(s),:li)}")[i]
   else
     #s.find(:css,'li') if i<0
     s.all(:css,'li')[i]

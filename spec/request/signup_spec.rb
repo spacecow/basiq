@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe "Users" do
   describe "root" do
-    before(:each){ visit signup_path }
+    before(:each){ visit root_path }
 
     it "layout" do
-      page.should have_link('Signup')
+      user_nav.should have_link('Signup')
     end
 
     it "link to signup" do
-      click_link 'Signup'
-      page.current_path.should eq signup_path
+      user_nav.click_link 'Signup'
+      current_path.should eq signup_path
     end
   end
 
@@ -71,13 +71,6 @@ describe "Users" do
         end.should change(User,:count).by(1)
       end
 
-      it "creates a decoupled signup token" do
-        lambda do
-          signup
-        end.should change(SignupToken,:count).by(1)
-        User.last.signup_token.should be_nil 
-      end
-
       it "creates a salt" do
         signup
         User.last.password_salt.should_not be_nil
@@ -88,6 +81,7 @@ describe "Users" do
         User.last.password_hash.should_not be_nil
       end
 
+<<<<<<< HEAD
       it "shows a flash message" do
         signup
         page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
@@ -109,6 +103,8 @@ describe "Users" do
       end
 # ------------------------------------------
 
+=======
+>>>>>>> f26ea4fbdc3d4d35edcd02e0add79d0bf558d290
       it "creates the user as a member" do
         signup
         User.last.roles_mask.should be User.role(:member)
@@ -119,7 +115,7 @@ describe "Users" do
       it "password field cannot be empty" do
         fill_in "Password", :with => ""
         click_button "Create User"
-        li(:password).should have_blank_error
+        li(:password_input).should have_blank_error
       end
 
       it "email field cannot be empty" do
@@ -153,7 +149,7 @@ describe "Users" do
         fill_in "Password", :with => "right"
         fill_in "Confirmation", :with => "wrong"
         click_button "Create User"
-        li(:password).should have_confirmation_error
+        li(:password_input).should have_confirmation_error
       end
     end
   end

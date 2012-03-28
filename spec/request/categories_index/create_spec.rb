@@ -48,7 +48,7 @@ describe "Categories" do
       it "name cannot be duplicated" do
         create_category('ruby')
         click_button 'Create Category'
-        li(:name).should have_duplication_error        
+        li(:name_en).should have_duplication_error        
       end
     end
   end
