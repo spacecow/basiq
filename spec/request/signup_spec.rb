@@ -91,7 +91,7 @@ describe "Users" do
       it "password field cannot be empty" do
         fill_in "Password", :with => ""
         click_button "Create User"
-        li(:password).should have_blank_error
+        li(:password_input).should have_blank_error
       end
 
       it "email field cannot be empty" do
@@ -125,7 +125,7 @@ describe "Users" do
         fill_in "Password", :with => "right"
         fill_in "Confirmation", :with => "wrong"
         click_button "Create User"
-        li(:password).should have_confirmation_error
+        li(:password_input).should have_confirmation_error
       end
     end
   end

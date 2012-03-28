@@ -33,7 +33,7 @@ module Capybara
 
       private
 
-        def lis(s=nil?)
+        def lis(s=nil)
           if s.nil?
             all('li')
           else

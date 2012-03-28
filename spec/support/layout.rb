@@ -90,10 +90,11 @@ def have_subtitle(s); have_css("h3",:text=>s) end
 def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if i>=0
-    all(:css,"li.#{s}")[i] 
+    #all(:css,"li.#{s}")[i] 
+    all(:css, "li##{tag_id(s,:li)}")[i] #book
   elsif s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
-    all(:css, "li##{tag_id(s,:li)}")[i]
+    all(:css, "li##{tag_id(s,:li)}")[i] #book
     #find(:css, "li##{tag_ids(:li,s)[i]}")
   elsif s.instance_of? String
     find(:css,"li##{tag_id(lbl_id(s),:li)}") if i<0
