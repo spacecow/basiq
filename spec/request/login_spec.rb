@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Sessions", focus:true do
+describe "Sessions" do
   describe "login" do
     it "layout" do
       visit root_path
