@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "Sessions" do
+  it "login with userid"
+
   describe "login" do
     it "layout" do
       visit root_path
