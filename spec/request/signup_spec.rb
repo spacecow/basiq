@@ -81,30 +81,6 @@ describe "Users" do
         User.last.password_hash.should_not be_nil
       end
 
-<<<<<<< HEAD
-      it "shows a flash message" do
-        signup
-        page.should have_notice("An email has been sent to you with information about your account. To activate your account, make sure to click the link in the mail.")
-        #page.should have_notice("Signed up and logged in.")
-      end
-
-# if mail works, these two should be deleted
-      it "does not log the user in" do
-        signup
-        page.should have_link('Login')
-        page.should have_link('Signup')
-      end
-
-      it "redirects to wanted page after signup" do
-        user = create_user("test")
-        visit user_path(user)
-        signup
-        current_path.should eq user_path(user)
-      end
-# ------------------------------------------
-
-=======
->>>>>>> f26ea4fbdc3d4d35edcd02e0add79d0bf558d290
       it "creates the user as a member" do
         signup
         User.last.roles_mask.should be User.role(:member)

@@ -49,7 +49,7 @@ end
 def have_inclusion_error; have_error(:inclusion) end
 def have_invalid_error; have_error(:invalid) end
 def have_numericality_error
-  have_error(:numericality)
+  have_error(:not_a_number)
 end
 def have_hint(s=nil)
   if s.nil?
