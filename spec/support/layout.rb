@@ -91,7 +91,7 @@ def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if i>=0
     #all(:css,"li.#{s}")[i] 
-    all(:css, "li##{tag_id(s,:li)}")[i] #book
+    all(:css, "li.#{tag_class(s,:li)}")[i] #address 
   elsif s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
     all(:css, "li##{tag_id(s,:li)}")[i] #book
@@ -164,6 +164,9 @@ def tables(s=nil)
   else
     all(:css,"table.#{s}")
   end
+end
+def tag_class(s,tag)
+  all(:css,tag.to_s).map{|e| e[:class]}.select{|e| e =~ /#{s}/}.first
 end
 def tag_id(s,tag); tag_ids(tag).select{|e| e=~/#{s}/}.first end
 def tag_ids(tag,s=nil); 
