@@ -26,6 +26,7 @@ module BasicApplicationController
     #TRANSLATION_LOG.debug s
     I18n.t(s,opt.first)
   end
+  def mess(s,*opt) jt("messages.#{s}",*opt) end
   def notify(s) jt("notices.#{s}") end
   def not_created(o)
     jt("alerts.not_created", o:pl(o,1))
