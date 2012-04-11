@@ -46,8 +46,8 @@ module BasicApplicationHelper
         case distance_in_minutes
           when 0..1
             return distance_in_minutes == 0 ?
-                   locale.t(:less_than_x_minutes, :count => 1) :
-                   locale.t(:x_minutes, :count => distance_in_minutes) unless include_seconds
+                   locale.t("less_than_x_minutes.one", :count => 1) :
+                   locale.t("x_minutes.one", :count => distance_in_minutes) unless include_seconds
 
             case distance_in_seconds
               when 0..4   then locale.t "less_than_x_seconds.other", :count => 5

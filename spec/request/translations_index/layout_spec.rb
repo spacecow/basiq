@@ -55,11 +55,12 @@ describe "Translations" do
             create_translation('aadog','dog','en')
             create_translation('pi','Pirate','pi')
             create_translation('pi','Pirate','en')
+            create_translation('aadog','japanese-dog','ja')
             visit translations_path
           end
 
           it "has two headers" do
-            tableheader.should eq ['Key','English','Japanese', 'Pirate']
+            tableheader.should eq ['Key','English','Persian', 'Japanese', 'Pirate']
           end
           it "shows one row" do
             value(:en_0_value).should eq 'dog'
@@ -69,6 +70,7 @@ describe "Translations" do
             TRANSLATION_STORE.del('en.aadog')
             TRANSLATION_STORE.del('pi.pi')
             TRANSLATION_STORE.del('en.pi')
+            TRANSLATION_STORE.del('ja.aadog')
           end
         end
 
@@ -76,11 +78,12 @@ describe "Translations" do
           before(:each) do
             create_translation('aadog','dog','en')
             create_translation('aabbq','BBQ','ir')
+            create_translation('aadog','japanese-dog','ja')
             visit translations_path
           end
 
           it "has three headers" do
-            tableheader.should eq ['Key','English','Japanese','Persian']
+            tableheader.should eq ['Key','English','Persian','Japanese']
           end
           it "shows two rows" do
             value(:en_0_value).should be_nil 
@@ -92,6 +95,7 @@ describe "Translations" do
           after(:each) do
             TRANSLATION_STORE.del('en.aadog')
             TRANSLATION_STORE.del('ir.aabbq')
+            TRANSLATION_STORE.del('ja.aadog')
           end
         end
       end
