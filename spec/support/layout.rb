@@ -91,8 +91,8 @@ def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if i>=0
     #all(:css,"li.#{s}")[i] 
-    #all(:css, "li.#{tag_class(s,:li)}")[i] #address 
-    all(:css, "li##{tag_id(s,:li)}")[i] #book
+    all(:css, "li.#{tag_class(s,:li)}")[i] #address 
+    #all(:css, "li##{tag_id(s,:li)}")[i] #book
   elsif s.instance_of? Symbol
     #find(:css, "li##{tag_id(s,:li)}") if i<0
     all(:css, "li##{tag_id(s,:li)}")[i] #book
