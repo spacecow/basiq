@@ -18,5 +18,5 @@ def login_member
 end
 
 def create_user(user)
-  Factory(:user,username:user)
+  FactoryGirl.create(:user,username:user)
 end

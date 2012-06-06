@@ -61,7 +61,7 @@ describe "Translations" do
           end
 
           it "has two headers" do
-            tableheader.should eq ['Key','English','Japanese','Pirate','Persian']
+            tableheader.should eq ['Key','English','Persian','Japanese','Pirate']
           end
           it "shows one row" do
             value(:en_0_value).should eq 'dog'
@@ -85,7 +85,7 @@ describe "Translations" do
           end
 
           it "has three headers" do
-            tableheader.should eq ['Key','English','Japanese','Persian']
+            tableheader.should eq ['Key','English','Persian','Japanese']
           end
           it "shows two rows" do
             value(:en_0_value).should be_nil 
