@@ -23,12 +23,14 @@ describe "Categories" do
 
     it "updates the name of the category" do
       click_button 'Update Category'
-      Category.all.map(&"name_#{I18n.locale}".to_sym).should eq ['red','ruby','io']
+      #Category.all.map(&"name_#{I18n.locale}".to_sym).should eq ['red','ruby','io']
+      Category.all.map(&"name_ir".to_sym).should eq ['red','ruby','io']
     end
 
     it "updates the names_depth_cache of the category" do
       click_button 'Update Category'
-      Category.all.map(&"names_depth_cache_#{I18n.locale}".to_sym).should eq [Category.separate(I18n.locale,'ruby','red'),'ruby',Category.separate(I18n.locale,'ruby','red','io')]
+      #Category.all.map(&"names_depth_cache_#{I18n.locale}".to_sym).should eq [Category.separate(I18n.locale,'ruby','red'),'ruby',Category.separate(I18n.locale,'ruby','red','io')]
+      Category.all.map(&"names_depth_cache_ir".to_sym).should eq [Category.separate(I18n.locale,'ruby','red'),'ruby',Category.separate(I18n.locale,'ruby','red','io')]
     end
 
     it "updates the parent of the category" do
@@ -56,7 +58,8 @@ describe "Categories" do
       it "name cannot be duplicated" do
         fill_in 'Name', with:'ruby'
         click_button 'Update Category'
-        li(:name_en).should have_duplication_error        
+        #li(:name_en).should have_duplication_error        
+        li(:name_ir).should have_duplication_error        
       end
     end
   end
