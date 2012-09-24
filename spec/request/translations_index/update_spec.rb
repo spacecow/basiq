@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Translations" do
   describe "index" do
     before(:each) do
-      login_admin
+      signin_admin
     end
 
     context "update translation" do

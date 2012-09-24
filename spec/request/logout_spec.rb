@@ -19,9 +19,9 @@ describe "Sessions" do
         click_link 'Logout' 
       end
     
-      it "redirects to the root path" do
-        page.current_path.should eq root_path 
-      end
+      #it "redirects to the root path" do
+      #  page.current_path.should eq root_path 
+      #end
     end
 
     context "logout user" do

@@ -108,14 +108,14 @@ describe "Users" do
       end
 
       it "userid must be unique" do
-        Factory(:user,:userid=>"test")
+        FactoryGirl.create(:user,:userid=>"test")
         fill_in "Userid", :with => "test"
         click_button "Create User"
         li(:userid).should have_duplication_error
       end
 
       it "userid can be blank" do
-        Factory(:user,:userid=>"")
+        FactoryGirl.create(:user,:userid=>"")
         fill_in "Userid", :with => ""
         click_button "Create User"
         li(:userid).should_not have_duplication_error

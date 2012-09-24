@@ -6,9 +6,9 @@ module BasicApplicationHelper
   def create(o,i=1) labels(:create,o,i) end
   def edit(o,i=1) labels(:edit,o,i) end
   def empty(s); jt('labels.empty',:o=>jt(s)) end
-  def formtitle(mdl)
-    s = mdl.class.to_s.downcase
-    subtitle(mdl.new_record? ? new(s) : edit(s))
+  def formtitle(mdl,tag="h3")
+    s = mdl.class.to_s.underscore.to_sym
+    mdl.new_record? ? new(s) : edit(s)
   end
   def ft(s); jt("formtastic.labels.#{s.to_s}") end
   def minititle(s); raw "<h2>#{s}</h2>" end
@@ -33,7 +33,8 @@ module BasicApplicationHelper
   private
 
     def labels(lbl,o,i)
-      jt("labels.#{lbl}", o:pl(o,i))
+      obj = o.instance_of?(Symbol) ? pl(o,i) : o 
+      jt("labels.#{lbl}", o:obj)
     end
 
     def jdistance_of_time_in_words(from_time, to_time = 0, include_seconds = false, options = {})

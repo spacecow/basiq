@@ -3,13 +3,16 @@ require 'spec_helper'
 describe "Categories" do
   context "admin links to" do
     before(:each) do
-      login_admin
+      p login_admin
       @ruby = create_category('ruby')
       visit category_path(@ruby)
     end
 
     context "edit category" do 
-      before(:each){ bottom_links.click_link 'Edit' }
+      before(:each) do
+        save_and_open_page
+        bottom_links.click_link 'Edit'
+      end
 
       it "redirects to the categories index page" do
         page.current_path.should eq categories_path

@@ -21,6 +21,7 @@ module BasicApplicationController
   def emptied(s) succ(:emptied,:o=>jt(s)) end
   def english?; get_language == :en end
   def error(s,*opt) jt("errors.#{s}",*opt) end
+  def errors(s,*opt) jt("errors.messages.#{s}",*opt) end
   def get_language; I18n.locale end
   def jt(s,*opt)
     #TRANSLATION_LOG.debug s
@@ -48,6 +49,9 @@ module BasicApplicationController
     else
       succ("removed_from_cart.other", o:pl(o,i), name:name, count:i)
     end
+  end
+  def saved(o,i=nil)
+    i ? succ_no(:saved,o,i) : succ(:saved,o:pl(o,1))
   end
   def updated(o) succ(:updated,o:pl(o,1)) end
   def updated_adv(o,name); succ_adv(:updated,o,name) end

@@ -1,1 +1,1 @@
-def create_locale(s) Factory(:locale,:name=>s) end
+def create_locale(s) FactoryGirl.create(:locale,:name=>s) end

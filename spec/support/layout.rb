@@ -14,11 +14,14 @@ end
 
 # FORM ---------------------------------------
 
-def form(s=nil)
-  if s.nil?
-    find(:css, 'form')
+def form(id=nil,i=-1) tag(:form,id,i) end
+def tag(tag,id,i=-1)
+  if id.nil?
+    find(:css, tag.to_s)
+  elsif i<0
+    find(:css,"#{tag}##{id.to_s}")
   else
-    find(:css, "form##{s}")
+    all(:css,"#{tag}.#{id.to_s}")[i] 
   end
 end
 def value(s,i=0) 
@@ -29,14 +32,19 @@ def value(s,i=0)
     find_field(s.to_s).value
   end
 end
+def have_cancel_button(s='Cancel')
+  have_xpath("//input[@class='cancel' and @type='submit' and @value='#{s}']") 
+end
 def have_submit_button(s)
-  have_xpath("//input[@type='submit' and @class='submit' and @value='#{s}']") 
+  #have_xpath("//input[@type='submit' and @class='button submit' and @value='#{s}']") 
+  have_xpath("//input[@class='button submit' and @type='submit' and @value='#{s}']") 
 end
 
 # ERRORS -------------------------------------
 def have_error(err,no=nil)
-  err = I18n.t("activerecord.errors.messages.#{err.to_s}",:count=>no) if err.instance_of? Symbol
-  have_css("p.inline-errors",:text=>err)
+  err = I18n.t("errors.messages.#{err.to_s}",count:no) if err.instance_of? Symbol
+  #have_css("p.inline-errors",:text=>err)
+  have_css("span.error",:text=>err)
 end
 def have_blank_error; have_error(:blank) end
 def have_confirmation_error
@@ -45,6 +53,9 @@ end
 def have_duplication_error; have_error(:taken) end
 def have_greater_than_error(no)
   have_error(:greater_than,no)
+end
+def have_greater_than_or_equal_to_error(no)
+  have_error(:greater_than_or_equal_to,no)
 end
 def have_inclusion_error; have_error(:inclusion) end
 def have_invalid_error; have_error(:invalid) end
@@ -82,9 +93,9 @@ def have_a_table(s,i=-1)
     have_xpath("//table[@class='#{s}'][#{i+1}]") 
   end
 end
-def have_link(s); have_css("a",:text=>s) end
 
 def have_title(s); have_css("h1",:text=>s) end
+def have_h2(s); have_css("h2",:text=>s) end
 def have_subtitle(s); have_css("h3",:text=>s) end
 
 def li_id(s,i)
@@ -94,7 +105,7 @@ end
 def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if i>=0
-    all(:css, "li##{tag_id(s,:li)}")[i]
+    all(:css, "li.#{tag_class(s,:li)}")[i]
     #all(:css, "li.#{tag_class(s,:li)}")[i] #address 
     #all(:css, "li##{tag_id(s,:li)}")[i] #book
   elsif s.instance_of? Symbol
@@ -119,6 +130,7 @@ end
 def lis_no(s)
   tag_ids(:li,s).count
 end
+def ul(id); find(:css,"ul##{id.to_s}") end
 def row(i,s=nil); table(s).all(:css,'tr')[i] end
 def cell(row,col); row(row).all(:css,'td')[col] end
 
@@ -197,18 +209,36 @@ def div(id,i=-1)
     all(:css,"div.#{id.to_s}")[i] 
   end
 end
+def h2(id,i=-1) tag(:h2,id,i) end
+def td(id,i=-1) tag(:td,id,i) end
+def span(id,i=-1)
+  if i<0
+    find(:css,"span##{id.to_s}")
+  else
+    all(:css,"span.#{id.to_s}")[i] 
+  end
+end
 def divs(s); all(:css, "div.#{s}") end
 def divs_no(s); divs(s).count end
 def search_bar; div(:search_bar) end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
-def have_div(s,i=-1)
+def have_tag(tag,s,i=-1)
   if i<0
-    have_css("div##{s}")
+    have_css("#{tag}##{s}")
   else
-    have_xpath("//div[@class='#{s}'][#{i+1}]")
+    have_xpath("//#{tag}[@class='#{s}'][#{i+1}]")
   end
 end
+def have_div(s,i=-1) have_tag('div',s,i) end
+def have_bottom_link(s)
+  have_css("div#bottom_links a",:text=>s)
+end
+def have_bottom_links; have_div('bottom_links') end
+def have_link(s); have_css("a",:text=>s) end
+def have_span(s,i=-1) have_tag('span',s,i) end
+def have_fieldset(s,i=-1) have_tag('fieldset',s,i) end
+def have_ul(s,i=-1) have_tag('ul',s,i) end
 
 private
   def lbl_id(s) 
