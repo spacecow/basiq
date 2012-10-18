@@ -219,7 +219,12 @@ def span(id,i=-1)
   end
 end
 def divs(s); all(:css, "div.#{s}") end
+def forms(s); all(:css, "form.#{s}") end
+def forms_id(s); all(:css, "form##{s}") end
 def divs_no(s); divs(s).count end
+def forms_no(s); forms(s).count end
+def forms_id_no(s); forms_id(s).count end
+
 def search_bar; div(:search_bar) end
 def site_nav; div(:site_nav) end
 def user_nav; div(:user_nav) end
@@ -231,6 +236,7 @@ def have_tag(tag,s,i=-1)
   end
 end
 def have_div(s,i=-1) have_tag('div',s,i) end
+def have_textarea(s,i=-1) have_tag('textarea',s,i) end
 def have_bottom_link(s)
   have_css("div#bottom_links a",:text=>s)
 end
