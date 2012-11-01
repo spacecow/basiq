@@ -35,6 +35,12 @@ class BasePresenter
     h.link_to h.t(:delete), [@parent, @object], method: :delete, data:{confirm:h.sure?} if h.can? :destroy, @object 
   end
 
+  def timestamp
+    h.content_tag(:div, id:'timestamp') do
+      h.time_ago_in_words(@object.updated_at)+" ago"
+    end
+  end
+
   class << self
     def presents(name, parent=nil, grandparent=nil)
       define_method(name) do
