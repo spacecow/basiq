@@ -4,6 +4,7 @@ module BasicApplicationHelper
   def cancel(o,i=1) labels(:cancel,o,i) end
   def confirm(o,i=1) labels(:confirm,o,i) end
   def create(o,i=1) labels(:create,o,i) end
+  def crop(o,i=1) labels(:crop,o,i) end
   def edit(o,i=1) labels(:edit,o,i) end
   def empty(s); jt('labels.empty',:o=>jt(s)) end
   def formtitle(mdl,tag="h3")
@@ -34,7 +35,7 @@ module BasicApplicationHelper
 
     def labels(lbl,o,i)
       obj = o.instance_of?(Symbol) ? pl(o,i) : o 
-      jt("labels.#{lbl}", o:obj)
+      t("labels.#{lbl}", o:obj)
     end
 
     def jdistance_of_time_in_words(from_time, to_time = 0, include_seconds = false, options = {})

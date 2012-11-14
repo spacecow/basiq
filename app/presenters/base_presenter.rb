@@ -20,7 +20,11 @@ class BasePresenter
     end
   end
   def edit_link
-    dobject = @object.class.to_s.downcase
+    if @object.class.superclass.to_s == "ActiveRecord::Base"
+      dobject = @object.class.to_s.downcase
+    else
+      dobject = @object.class.superclass.to_s.downcase
+    end
     dparent = @parent.class.to_s.downcase
     if h.can? :edit, @object 
       if dparent == 'nilclass'
