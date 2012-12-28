@@ -26,23 +26,9 @@ describe 'Sessions create' do
     page.should have_content('July 2012')
   end
 
-  it "login with email" do
-    fill_in 'Login', with:'test@email.com'
-    click_button 'Login'
-    user_nav.should have_content('Logged in as testuser')
-  end
-
   context "login with userid" do
     before(:each) do
       click_button 'Login'
-    end
-
-    it "redirects to the root page" do
-      current_path.should eq root_path
-    end
-
-    it "shows a logged-in flash message" do
-      page.should have_notice('Logged in')
     end
 
     it "shows the name of the logged in user" do

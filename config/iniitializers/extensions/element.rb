@@ -3,13 +3,14 @@ require 'capybara'
 module Capybara
   module Node
     class Element < Base
-      def div(s,i=-1)
+      def tag(tag,id,i=-1)
         if i<0
-          find(:css,"div##{s}") 
+          find(:css,"#{tag}##{id.to_s}") 
         else
-          all(:css,"div.#{s}")[i]
+          all(:css,"#{tag}.#{id.to_s}")[i]
         end
       end
+      def div(id,i=-1) tag(:div,id,i) end
       def divs(s); all(:css, "div.#{s}") end
       def divs_no(s); divs(s).count end
       def divs_text(s)
@@ -45,7 +46,7 @@ module Capybara
         end
       end
       def tables_no(s); tables(s).count end
-      def ul(id); find(:css,"ul##{id.to_s}") end
+      def ul(id,i=-1) tag(:ul,id,i) end
 
       private
 

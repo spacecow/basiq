@@ -8,6 +8,10 @@ class BasePresenter
 
   def h; @template end
 
+  def clear_div
+    "<div class='clear'></div>".html_safe
+  end
+
   def new_link
     dobject = @object.to_s.downcase
     dparent = @parent.class.to_s.downcase
@@ -36,11 +40,16 @@ class BasePresenter
   end
   def delete_link
     dcase = @object.class.to_s.downcase
-    h.link_to h.t(:delete), [@parent, @object], method: :delete, data:{confirm:h.sure?} if h.can? :destroy, @object 
+    dparent = @parent.class.to_s.downcase
+    #if dparent == 'nilclass'
+    #  h.link_to h.t(:delete), @object, method: :delete, data:{confirm:h.sure?} #if h.can? :destroy, @object 
+    #else
+      h.link_to h.t(:delete), [@parent, @object], method: :delete, data:{confirm:h.sure?} if h.can? :destroy, @object 
+    #end
   end
 
   def timestamp
-    h.content_tag(:div, id:'timestamp') do
+    h.content_tag(:div, class:'timestamp') do
       h.time_ago_in_words(@object.updated_at)+" ago"
     end
   end

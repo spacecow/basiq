@@ -105,7 +105,7 @@ end
 def li(s,i=-1)
   return lis[s] if s.instance_of? Fixnum
   if i>=0
-    all(:css, "li.#{tag_class(s,:li)}")[i]
+    all(:css, "li.#{tag_class(s,:li)}".rstrip)[i]
     #all(:css, "li.#{tag_class(s,:li)}")[i] #address 
     #all(:css, "li##{tag_id(s,:li)}")[i] #book
   elsif s.instance_of? Symbol
@@ -130,7 +130,7 @@ end
 def lis_no(s)
   tag_ids(:li,s).count
 end
-def ul(id); find(:css,"ul##{id.to_s}") end
+def ul(id=nil,i=-1) tag(:ul,id,i) end
 def row(i,s=nil); table(s).all(:css,'tr')[i] end
 def cell(row,col); row(row).all(:css,'td')[col] end
 

@@ -33,6 +33,11 @@ module BasicApplicationController
     jt("alerts.not_created", o:pl(o,1))
   end
   def pl(s,i=2)
+    #if i==1
+    #  t("#{s}.one",count:1)
+    #else
+    #  t("#{s}",count:i)
+    #end
     if i==1 
       jt("#{s}.one",count:1) =~ /translation missing/ ? jt(s) : jt("#{s}.one",count:1)
     else

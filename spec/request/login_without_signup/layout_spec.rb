@@ -43,7 +43,7 @@ describe 'Sessions new layout' do
     value('Password').should be_nil
   end
   it "has a login button" do
-    form.should have_submit_button('Login')
+    page.should have_submit_button('Login')
   end
 end
 

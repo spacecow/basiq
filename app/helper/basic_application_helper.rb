@@ -9,9 +9,10 @@ module BasicApplicationHelper
   def empty(s); jt('labels.empty',:o=>jt(s)) end
   def formtitle(mdl,tag="h3")
     s = mdl.class.to_s.underscore.to_sym
-    mdl.new_record? ? new(s) : edit(s)
+    minititle(mdl.new_record? ? new(s) : edit(s))
   end
   def ft(s); jt("formtastic.labels.#{s.to_s}") end
+  def mess(s,*opt) t("messages.#{s}",*opt) end
   def minititle(s); raw "<h2>#{s}</h2>" end
   def new(o,i=1) labels(:new,o,i) end
   def remove(o,i=1) labels(:remove,o,i) end
@@ -19,6 +20,7 @@ module BasicApplicationHelper
     s = mdl.class.to_s.downcase
     f.submit mdl.new_record? ? create(s) : update(s) 
   end
+  def subminititle(s); raw "<h4>#{s}</h4>" end
   def subtitle(s); raw "<h3>#{s}</h3>" end
   def sure?; mess(:sure?) end
   def title(s)
